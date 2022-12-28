@@ -2,6 +2,7 @@
   "name": "vscode-markdown-adobe",
   "displayName": "vscode-markdown-adobe",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
+  "publisher": "adobe",
   "version": "2.0.0",
   "engines": {
     "vscode": "^1.74.0"
@@ -10,10 +11,11 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vscode-markdown-adobe.helloWorld"
+    "onLanguage:markdown"
   ],
-  "main": "./dist/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
+    "markdown.markdownItPlugins": true
   },
   "scripts": {
     "build-plugin": "webpack --mode=production --config ./build/plugin.webpack.config.js",

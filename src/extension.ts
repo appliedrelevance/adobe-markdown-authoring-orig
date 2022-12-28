@@ -1,9 +1,11 @@
 import * as vscode from 'vscode';
 import * as MarkdownIt from 'markdown-it';
 import { output } from './lib/common';
+import adobeMarkdownPlugin from './plugin';
 
 
 export function activate(context: vscode.ExtensionContext) {
+
 	console.log('Activated extension "vscode-markdown-adobe"');
 	return {
 		extendMarkdownIt(md: MarkdownIt) {
@@ -12,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
 					md.options
 				)}`
 			);
-			return md;
+			return adobeMarkdownPlugin(md)
 			// 	.use(require('markdown-it-replace-link'), {
 			// 		replaceLink: function (link: string, env: any) {
 			// 			return makeRelativeLink(link);

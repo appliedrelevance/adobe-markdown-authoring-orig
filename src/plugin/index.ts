@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 
 import transformLinkTargets from "./transform/link-targets";
+import transformTabs from "./transform/tabs";
 
 export interface PluginOptions {
     root?: string;
@@ -31,9 +32,10 @@ export enum TokenType {
 
 export default function adobeMarkdownPlugin(
     md: MarkdownIt,
-    options: PluginOptions
+    options?: PluginOptions
 ) {
-    return (md: MarkdownIt, options: PluginOptions) => {
+    return (md: MarkdownIt, options?: PluginOptions) => {
+        md.core.ruler.after('block', 'tabs', transformTabs);
         md.core.ruler.after("block", "link-target", transformLinkTargets);
     };
 }
