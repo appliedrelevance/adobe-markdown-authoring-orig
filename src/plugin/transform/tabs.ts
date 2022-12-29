@@ -24,13 +24,14 @@ export default function transformTabs(state: StateCore) {
                 let match = tabRe.exec(text);
                 if (match) {
                     // Replace all of the totkens that make up the opening [!BEGINTABS] line with a single html_block token.
-                    let newToken = new Token(TokenType.HTML_BLOCK, `<div class="sp-wrapper"><sp-tabs
+                    let newToken = new Token(TokenType.HTML_BLOCK, '', 0);
+                    newToken.content = `<div class="sp-wrapper"><sp-tabs
                     selected="1"
                     size="l"
                     direction="horizontal"
                     dir="ltr"
                     focusable=""
-                  >`, 0);
+                  >`;
                     tokens.splice(i, 5, newToken);
                     i++;
                     tabsGoHere = i;
@@ -83,7 +84,8 @@ export default function transformTabs(state: StateCore) {
     id="sp-tab-panel-${tabCount - 1}"
     aria-labelledby="sp-tab-${tabCount - 1}" 
     aria-hidden="true">`;
-                let newToken = new Token(TokenType.HTML_BLOCK, spTabPanelStart, 0);
+                let newToken = new Token(TokenType.HTML_BLOCK, '', 0);
+                newToken.content = spTabPanelStart;
                 tokens.splice(i, 5, newToken);
                 i++;
                 // Everything up to the next blockquote_open is the tab content.  Leave it alone.
@@ -122,7 +124,9 @@ export default function transformTabs(state: StateCore) {
                         aria-controls="sp-tab-panel-${index + 1}"
                         selected=""
                       ></sp-tab>`;
-                        return new Token(TokenType.HTML_BLOCK, tabContent, 0);
+                        let newToken = new Token(TokenType.HTML_BLOCK, '', 0);
+                        newToken.content = tabContent;
+                        return newToken;
                     });
                     tokens.splice(tabsGoHere, 0, ...tabHeaders);
                     break;
@@ -130,6 +134,5 @@ export default function transformTabs(state: StateCore) {
             }
             i++;
         }
-        // appendSpectrumTabs(state);
     }
 }

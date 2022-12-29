@@ -33,13 +33,12 @@ export enum TokenType {
 
 export default function adobeMarkdownPlugin(
     md: MarkdownIt,
-    options?: PluginOptions
 ) {
     md.use(injectTransforms);
     return md;
 }
 
 function injectTransforms(md: MarkdownIt) {
-    md.core.ruler.push("transform-tabs", transformTabs);
+    md.core.ruler.after('block', 'transform-tabs', transformTabs);
 }
 
