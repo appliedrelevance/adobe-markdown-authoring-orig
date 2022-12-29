@@ -2,7 +2,7 @@ import MarkdownIt from "markdown-it";
 import fs from "fs";
 import path from "path";
 
-import transformLinkTargets from "./transform/link-targets";
+// import transformLinkTargets from "./transform/link-targets";
 import transformTabs from "./transform/tabs";
 
 export interface PluginOptions {
@@ -22,6 +22,7 @@ export interface PluginOptions {
 export enum TokenType {
     BLOCKQUOTE_OPEN = "blockquote_open",
     BLOCKQUOTE_CLOSE = "blockquote_close",
+    HTML_BLOCK = "html_block",
     PARAGRAPH_OPEN = "paragraph_open",
     PARAGRAPH_CLOSE = "paragraph_close",
     INLINE = "inline",
@@ -34,8 +35,11 @@ export default function adobeMarkdownPlugin(
     md: MarkdownIt,
     options?: PluginOptions
 ) {
-    return (md: MarkdownIt, options?: PluginOptions) => {
-        md.core.ruler.after('block', 'tabs', transformTabs);
-        md.core.ruler.after("block", "link-target", transformLinkTargets);
-    };
+    md.use(injectTransforms);
+    return md;
 }
+
+function injectTransforms(md: MarkdownIt) {
+    md.core.ruler.push("transform-tabs", transformTabs);
+}
+

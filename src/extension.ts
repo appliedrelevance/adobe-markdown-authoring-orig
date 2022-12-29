@@ -14,7 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
 					md.options
 				)}`
 			);
-			return adobeMarkdownPlugin(md)
+			let plugin = adobeMarkdownPlugin(md);
+			return plugin;
 			// 	.use(require('markdown-it-replace-link'), {
 			// 		replaceLink: function (link: string, env: any) {
 			// 			return makeRelativeLink(link);

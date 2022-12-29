@@ -15,7 +15,7 @@ const extensionConfig = {
   entry: './src/extension.ts',
   output: {
     // the bundle is stored in the 'out' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
-    path: path.resolve(__dirname, 'out'),
+    path: path.resolve(__dirname, '..', 'out'),
     filename: 'extension.js',
     libraryTarget: 'commonjs2'
   },
@@ -38,7 +38,7 @@ const extensionConfig = {
       }
     ]
   },
-  devtool: 'nosources-source-map',
+  devtool: 'eval-source-map',
   infrastructureLogging: {
     level: "log", // enables logging required for problem matchers
   },
