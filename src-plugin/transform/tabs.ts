@@ -95,7 +95,8 @@ export default function transformTabs(state: StateCore) {
                     if (nextToken.type === TokenType.BLOCKQUOTE_OPEN) {
                         // Insert the </sp-tab-panel> closing.
                         let spTabPanelEnd = '</sp-tab-panel>';
-                        let newToken = new Token(TokenType.HTML_BLOCK, spTabPanelEnd, 0);
+                        let newToken = new Token(TokenType.HTML_BLOCK, '', 0);
+                        newToken.content = spTabPanelEnd;
                         tokens.splice(i, 0, newToken);
                         break;
                     }

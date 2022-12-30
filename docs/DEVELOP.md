@@ -1,47 +1,57 @@
-# Welcome to your VS Code Extension
+# Developer guide for VSCode Markdown Adobe Extension
 
-## What's in the folder
+This is a major rewrite of the original VSCode Adobe Markdown Extension. Most of the improevements are
+behind the scenes in consolidating several plugins into a single extension.
 
-* This folder contains all of the files necessary for your extension.
-* `package.json` - this is the manifest file in which you declare your extension and command.
-  * The sample plugin registers a command and defines its title and command name. With this information VS Code can show the command in the command palette. It doesn’t yet need to load the plugin.
-* `src/extension.ts` - this is the main file where you will provide the implementation of your command.
-  * The file exports one function, `activate`, which is called the very first time your extension is activated (in this case by executing the command). Inside the `activate` function we call `registerCommand`.
-  * We pass the function containing the implementation of the command as the second parameter to `registerCommand`.
+- Most of the extension is now coded in TypeScript.
+- There is no longer an external "Adobe Markdown-it Plugin" dependency. The plugin is now part of the extension.
+- The extension now uses the [Adobe Spectrum Web Components](https://opensource.adobe.com/spectrum-web-components/) for the UI.
+- The extension now uses [Webpack](https://webpack.js.org/) to bundle the extension and its dependencies.
+- The extension now uses [NPM](https://www.npmjs.com/) as the package manager for Node.js instead of Yarn.
 
-## Setup
+## Prerequisites
 
-* install the recommended extensions (amodio.tsl-problem-matcher and dbaeumer.vscode-eslint)
+- [Node.js](https://nodejs.org/en/) The core platform on which all VSCode extensions are built.
+- [VSCode](https://code.visualstudio.com/) The editor used to develop VSCode extensions.
+- [NPM](https://www.npmjs.com/) is the package manager for Node.js
+- [Webpack](https://webpack.js.org/) The bundler that is used to package the extension and its dependencies.
+- [Adobe Spectrum Web Components](https://opensource.adobe.com/spectrum-web-components/) The UI components used in the extension.
+
+## Getting Started
+
+Eventually, this extension will replace the current Adobe Markdown Extension. For now, it is a private repository hosted on the Applied Relevance GitHub account. To get started, you will need to clone the repository and install the dependencies.
+
+```bash
+git clone https://github.com/appliedrelevance/vscode-markdown-adobe.git
+cd vscode-markdown-adobe
+npm install
+```
+
+## How is the extension organized?
+
+There are three main parts to the extension, each is contained in its own folder.
+
+- ./src - The extension itself
+- ./src-plugin - The Adobe Markdown-it Plugin
+- ./src-preview - The Preview Webview web components and themes.
+
+Each of the parts requires its own build process.  The webpack configuration files are located in the "build" folder.
+
+- plugin.webpack.config.js - Configuration for building the Markdown-it Plugin.
+- preview.webpack.config.js - Configuration for building the Preview Webview.
+- shared.adobe.webpack.config.js - Shared configuration for all of the builds.
+- webpack.config.js - Configuration for building the extension.
+
+## Building the Extension
+
+The extension is built using Webpack. The build process is defined in the `webpack.config.js` file. The build process will create a `dist` folder for the extension, a `dist-plugin` folder for the Markdown-it Plugin, and a `dist-preview` folder for the Preview Webview.
+
+```bash
+npm run build
+```
+
+## Debugging the Extension
+
+The extension can be debugged using the VSCode debugger. The debugger is configured in the `.vscode/launch.json` file. The debugger will launch a new instance of VSCode with the extension installed.
 
 
-## Get up and running straight away
-
-* Press `F5` to open a new window with your extension loaded.
-* Run your command from the command palette by pressing (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) and typing `Hello World`.
-* Set breakpoints in your code inside `src/extension.ts` to debug your extension.
-* Find output from your extension in the debug console.
-
-## Make changes
-
-* You can relaunch the extension from the debug toolbar after changing code in `src/extension.ts`.
-* You can also reload (`Ctrl+R` or `Cmd+R` on Mac) the VS Code window with your extension to load your changes.
-
-
-## Explore the API
-
-* You can open the full set of our API when you open the file `node_modules/@types/vscode/index.d.ts`.
-
-## Run tests
-
-* Open the debug viewlet (`Ctrl+Shift+D` or `Cmd+Shift+D` on Mac) and from the launch configuration dropdown pick `Extension Tests`.
-* Press `F5` to run the tests in a new window with your extension loaded.
-* See the output of the test result in the debug console.
-* Make changes to `src/test/suite/extension.test.ts` or create new test files inside the `test/suite` folder.
-  * The provided test runner will only consider files matching the name pattern `**.test.ts`.
-  * You can create folders inside the `test` folder to structure your tests any way you want.
-
-## Go further
-
-* Reduce the extension size and improve the startup time by [bundling your extension](https://code.visualstudio.com/api/working-with-extensions/bundling-extension).
-* [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace.
-* Automate builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
