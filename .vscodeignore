@@ -1,6 +1,9 @@
 .vscode/**
 .vscode-test/**
 out/**
+dist/**
+dist-preview/**
+dist-plugin/**
 node_modules/**
 src/**
 .gitignore

@@ -3,12 +3,12 @@ const shared = require('./shared.adobe.webpack.config');
 
 module.exports = {
     ...shared,
-    target: 'node',
+    target: 'web',
     entry: {
-        'index': path.join(__dirname, '..', 'src-plugin', 'index.ts'),
+        'index': path.join(__dirname, '..', 'src-preview', 'index.ts'),
     },
     output: {
-        path: path.join(__dirname, '..', 'dist-plugin'),
+        path: path.join(__dirname, '..', 'dist-preview'),
         filename: '[name].bundle.js'
     },
 };

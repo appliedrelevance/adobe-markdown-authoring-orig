@@ -10,14 +10,15 @@ const path = require('path');
 /** @type WebpackConfig */
 const extensionConfig = {
   target: 'node',
-  mode: 'none',
+  mode: 'development',
 
   entry: './src/extension.ts',
   output: {
-    // the bundle is stored in the 'out' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
-    path: path.resolve(__dirname, '..', 'out'),
+    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
+    path: path.resolve(__dirname, '..', 'dist'),
     filename: 'extension.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
+    devtoolModuleFilenameTemplate: "../[resource-path]",
   },
   externals: {
     vscode: 'commonjs vscode'
@@ -30,15 +31,18 @@ const extensionConfig = {
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader'
+        use: [{
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              "module": "es6" // override `tsconfig.json` so that TypeScript emits native JavaScript modules.
+            }
           }
-        ]
+        }]
       }
     ]
   },
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   infrastructureLogging: {
     level: "log", // enables logging required for problem matchers
   },

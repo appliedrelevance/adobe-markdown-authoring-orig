@@ -1,8 +1,4 @@
 import MarkdownIt from "markdown-it";
-import fs from "fs";
-import path from "path";
-
-// import transformLinkTargets from "./transform/link-targets";
 import transformTabs from "./transform/tabs";
 
 export interface PluginOptions {
