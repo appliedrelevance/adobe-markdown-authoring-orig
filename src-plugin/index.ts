@@ -1,5 +1,4 @@
-import MarkdownIt from "markdown-it";
-import { RuleOptions } from "markdown-it/lib/ruler";
+import MarkdownIt, { Options } from "markdown-it";
 import { transformAdmonitions } from "./transform/admonitions";
 import { transformCollapsible } from "./transform/collapsible";
 import { transformDNLs } from "./transform/dnls";
@@ -24,13 +23,12 @@ export enum TokenType {
 }
 
 export default function adobeMarkdownPlugin(
-    md: MarkdownIt,
-) {
+    md: MarkdownIt) {
     md.use(injectTransforms);
     return md;
 }
 
-function injectTransforms(md: MarkdownIt) {
+function injectTransforms(md: MarkdownIt, options: Options) {
     md.core.ruler.before('normalize', 'include', includeFileParts);
     md.core.ruler.after('block', 'tabs', transformTabs);
     md.core.ruler.after('block', 'shadebox', transformShadebox);
