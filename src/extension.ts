@@ -10,7 +10,7 @@ import { register } from './lib/commands';
 import { findAndReplaceTargetExpressions, getRootFolder } from './lib/utiity';
 
 
-const spectrumConfigSection = 'adobe-spectrum-markdown';
+const spectrumConfigSection = 'markdown-spectrum';
 
 export function activate(context: vscode.ExtensionContext) {
 	var extensionPath: string = context.extensionPath;
@@ -103,7 +103,7 @@ export function activate(context: vscode.ExtensionContext) {
 // This method is called when your extension is deactivated
 export function deactivate() { }
 
-const defaultSpectrumTheme = 'lightest';
+const defaultSpectrumTheme = 'light';
 const validSpectrumThemes = [
 	'lightest',
 	'light',
@@ -120,7 +120,10 @@ function injectSpectrumTheme(md: any) {
 	md.renderer.render = function () {
 		const darkModeTheme = sanitizeSpectrumTheme(vscode.workspace.getConfiguration(spectrumConfigSection).get('darkModeTheme'));
 		const lightModeTheme = sanitizeSpectrumTheme(vscode.workspace.getConfiguration(spectrumConfigSection).get('lightModeTheme'));
-		return `<span id="${spectrumConfigSection}" aria-hidden="true"
+		return `<sp-theme id="${spectrumConfigSection}" 
+					theme="spectrum"
+					color="light"
+					scale="medium" aria-hidden="true"
                     data-dark-mode-theme="${darkModeTheme}"
                     data-light-mode-theme="${lightModeTheme}"></span>
                 ${render.apply(md.renderer, arguments)}`;

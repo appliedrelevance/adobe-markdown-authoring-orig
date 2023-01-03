@@ -18,6 +18,11 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "markdown.previewStyles": [
+      "./assets/styles/spectrum.css",
+      "./assets/styles/base.css",
+      "./assets/styles/docs.css"
+    ],
     "markdown.markdownItPlugins": true,
     "markdown.previewScripts": [
       "./dist-preview/index.bundle.js"

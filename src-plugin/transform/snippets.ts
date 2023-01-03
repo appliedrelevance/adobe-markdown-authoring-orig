@@ -103,7 +103,7 @@ function loadSnippetsFile(rootDir: string): ISnippetHash {
         let snippetName: string = '';
         snippetLines.forEach((line: string) => {
             const lineStr: string = line.toString().trim();
-            const match: RegExpExecArray | undefined = SNIPPET_HEADER_RE.exec(lineStr);
+            const match: RegExpExecArray | null = SNIPPET_HEADER_RE.exec(lineStr);
             if (match) {
                 const text = match[1];
                 snippetName = match[2];

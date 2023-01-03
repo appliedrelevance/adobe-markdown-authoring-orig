@@ -23,10 +23,10 @@ import { TokenType } from '..';
 
 export function transformAdmonitions(state: StateCore): void {
     let tokens: Token[] = state.tokens;
-    let startBlock = -1;
-    let level = 0;
+    let startBlock: number = -1;
+    let level: number = 0;
 
-    for (var i = 0, l = tokens.length; i < l; i++) {
+    for (var i: number = 0, l: number = tokens.length; i < l; i++) {
         // Is this the start of a blockquote?  If so, set the starting index and increment
         // the level.
         if (tokens[i].type === TokenType.BLOCKQUOTE_OPEN) {
@@ -64,7 +64,7 @@ export function transformAdmonitions(state: StateCore): void {
         if (tokens[i].type === TokenType.INLINE) {
             let labelMatches = tokens[i].content.match(
                 // eslint-disable-next-line max-len
-                /^\[\!(NOTE|CAUTION|IMPORTANT|TIP|WARNING|ADMINISTRATION|AVAILABILITY|PREREQUISITES|ERROR|INFO|SUCCESS|MORELIKETHIS)\](\n\s*)*(.*)/
+                /^\[\!(ADMINISTRATION|AVAILABILITY|CAUTION|ERROR|IMPORTANT|INFO|MORELIKETHIS|NOTE|PREREQUISITES|SUCCESS|TIP|WARNING)\](\n\s*)*(.*)/
             );
             if (labelMatches) {
                 tokens[i].content = labelMatches[3]; // Clear the [!NOTE] label text, retaining the message.

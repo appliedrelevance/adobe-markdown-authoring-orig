@@ -9,6 +9,8 @@ behind the scenes in consolidating several plugins into a single extension.
 - The extension now uses [Webpack](https://webpack.js.org/) to bundle the extension and its dependencies.
 - The extension now uses [NPM](https://www.npmjs.com/) as the package manager for Node.js instead of Yarn because Webpack seems to prefer it that way.
 
+All of the supported Adobe Flavored Markdown is described in the [Experience League Syntax Style Guide](https://experienceleague.adobe.com/docs/authoring-guide-exl/using/markdown/syntax-style-guide.html?lang=en#badges). This extension attempts to follow the syntax style guide as closely as possible. 
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/) The core platform on which all VSCode extensions are built.
@@ -80,3 +82,24 @@ md.core.ruler.after('block', 'alert', transformAdmonitions);
 md.core.ruler.after('block', 'header-anchors', transformHeaderAnchors);
 md.core.ruler.after('block', 'link-target', transformLinkTargets);
 ```
+
+#### Snippets
+
+The extension also supports snippets and includes. The snippets and include transform functions are defined in `/src-plugin/transform/snippets.ts`. 
+
+https://experienceleague.adobe.com/docs/authoring-guide-exl/using/authoring/includes.html?lang=en
+
+To share text among articles in a repo, you create a _includes folder in the help folder. This _includes folder can have .md files that can be referenced (included) from other files in the repo. In addition, a snippets.md file in this repo can include Head2 anchors that can be referenced from any file in the repo.
+
+Reference to H2 in snippets.md file: `{{id-name}}`
+
+Reference to include file: `{{$include /help/_includes/filename.md}}`
+
+#### Admonitions
+
+The extension supports admonitions. The admonition transform functions are defined in `/src-plugin/transform/admonitions.ts`. Admonitions are sometimes called "alerts" or "notes". 
+
+## Adobe Spectrum Integration
+
+Some areas of the Experience Leagues documentation site are being migrated to the Adobe Spectrum Design System. The extension partially supports the Spectrum Design System by using the [Adobe Spectrum Web Components](https://opensource.adobe.com/spectrum-web-components/) library.
+
