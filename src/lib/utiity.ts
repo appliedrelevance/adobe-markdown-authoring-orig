@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 
 import {
-
 	Selection,
 	TextDocument,
 	TextDocumentChangeEvent,
 	TextEditor,
 	window,
 	workspace,
-	Position
+	Position,
+	WorkspaceFolder
 } from 'vscode';
+
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { ExtensionContext, extensions } from 'vscode';
 import { isMarkdownFileCheckWithoutNotification, matchAll } from './common';
@@ -270,4 +273,113 @@ export function removeFirstOccurrence(str: string, searchstr: string) {
 		return str;
 	}
 	return str.slice(0, index) + str.slice(index + searchstr.length);
+}
+
+// /**
+//  * Function to compute the relative path between src and tgt without regard
+//  * to the current working directory.  The built-in path.relative() function
+//  * uses the CWD as a base, which cannot be changed. Weird that we have to
+//  * do this.
+//  *
+//  * @param {string} src
+//  * @param {string} tgt
+//  * @return {*}  {string}
+//  */
+function relativePath(src: string, tgt: string): string {
+	const srcelts: string[] = src.split('/');
+	const tgtelts: string[] = tgt.split('/');
+	let eltno = 0;
+	// Find the offset in tgt where folder paths are no longer the same.
+	let srcelt: string | undefined = srcelts.shift();
+	let tgtelt: string | undefined = tgtelts.shift();
+	while (srcelt !== undefined && tgtelt !== undefined && srcelt === tgtelt) {
+		srcelt = srcelts.shift();
+		tgtelt = tgtelts.shift();
+	}
+	let popups = Math.max(tgtelts.length - srcelts.length - 1, 0);
+	const fname = ''
+		.concat('../'.repeat(popups))
+		.concat(tgtelt || '')
+		.concat('/')
+		.concat(tgtelts.join('/'));
+	return fname;
+}
+
+/** 
+ * Function to find the current root folder of the project.
+ */
+export function getRootFolder(): WorkspaceFolder | undefined {
+	const folders = workspace.workspaceFolders;
+	if (folders) {
+		return folders[0];
+	}
+	return undefined;
+}
+
+/** 
+ * Given a link file path, return the path relative to the current workspace folder.
+ */
+export function makeRelativeLink(link: string): string {
+	// If link is a url, return it.
+	if (link.startsWith('http') || link.startsWith('https')) {
+		return link;
+	}
+	let activeEditor = window.activeTextEditor;
+
+	// Get list of folders in the current workspace.
+	const folders = workspace.workspaceFolders;
+	// Get the current file.
+	const currentFile: string | undefined =
+		activeEditor && activeEditor.document.fileName;
+	if (!currentFile) {
+		console.log(
+			`No current editor to compute relative links.`
+		);
+		return link;
+	}
+	console.log(
+		`Current editor file path is: ${currentFile}`
+	);
+	let relpath: string = link;
+	if (fs.existsSync(link)) {
+		relpath = relativePath(currentFile, link);
+		console.log(
+			`Resolved absolute link path ${link} .`
+		);
+	} else {
+		console.log(
+			`Attempting to resolve relative path: ${relpath}`
+		);
+		if (folders) {
+			folders.forEach((folder: WorkspaceFolder) => {
+				link = path.join(folder.uri.path, link);
+				if (fs.existsSync(link)) {
+					console.log(
+						`Absolute path found, and exists. ${link}`
+					);
+					relpath = relativePath(currentFile, link);
+					console.log(
+						`Resolved relative path: ${relpath}`
+					);
+					if (fs.existsSync(relpath)) {
+						console.log(
+							`Resolved relative path exists. ${relpath}`
+						);
+					} else {
+						console.log(
+							`Resolved relative path does not exist. ${relpath}`
+						);
+					}
+				} else {
+					console.log(
+						`Link Path ${link} does not exist.`
+					);
+				}
+			});
+		}
+	}
+	console.log(
+		`Relative path resolved to: ${relpath}.`
+	);
+	return relpath;
 }

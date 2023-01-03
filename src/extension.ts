@@ -1,33 +1,101 @@
 import * as vscode from 'vscode';
-import * as MarkdownIt from 'markdown-it';
-import { output } from './lib/common';
+import MarkdownIt, { Options } from 'markdown-it';
 import adobeMarkdownPlugin from '../src-plugin';
+import {
+	checkMarkdownlintCustomProperty,
+	checkMarkdownlintConfigSettings
+} from './controllers/lint-config-controller';
+import { generateTimestamp, output } from './lib/common';
+import { register } from './lib/commands';
+import { findAndReplaceTargetExpressions, getRootFolder } from './lib/utiity';
 
-const configSection = 'adobe-spectrum-markdown';
+
+const spectrumConfigSection = 'adobe-spectrum-markdown';
 
 export function activate(context: vscode.ExtensionContext) {
+	var extensionPath: string = context.extensionPath;
+	const { msTimeValue } = generateTimestamp();
+	output.appendLine(
+		`[${msTimeValue}] - Activating Adobe Flavored Markdown extension at ${extensionPath}`
+	);
+
+	output.appendLine(`[${msTimeValue}] - Activating docs linting extension.`);
+	// Markdown Lint custom rule check
+	checkMarkdownlintCustomProperty();
+	// Markdown Lint config check
+	checkMarkdownlintConfigSettings();
+
+	// Markdown Shortcuts
+	function buildLanguageRegex(): RegExp {
+		const languageArray: string[] | undefined = vscode.workspace
+			.getConfiguration('markdown')
+			.get('languages') || ['markdown'];
+		return new RegExp('(' + languageArray.join('|') + ')');
+	}
+
+	function togglemarkdown(langId: string) {
+		vscode.commands.executeCommand(
+			'setContext',
+			'markdown:enabled',
+			languageRegex.test(langId)
+		);
+	}
+
+	// Execute on activate
+	let languageRegex = buildLanguageRegex();
+	let activeEditor = vscode.window.activeTextEditor;
+	if (activeEditor) {
+		togglemarkdown(activeEditor.document.languageId);
+	}
+
+	// Update languageRegex if the configuration changes
+	vscode.workspace.onDidChangeConfiguration(
+		(configChange) => {
+			if (configChange.affectsConfiguration('markdown.languages')) {
+				languageRegex = buildLanguageRegex();
+			}
+		},
+		null,
+		context.subscriptions
+	);
+
+	// Enable/disable markdown
+	vscode.window.onDidChangeActiveTextEditor(
+		(editor) => {
+			activeEditor = editor;
+			if (activeEditor) {
+				togglemarkdown(activeEditor.document.languageId);
+			}
+		},
+		null,
+		context.subscriptions
+	);
+
+	// When the document changes, find and replace target expressions (for example, smart quotes).
+	vscode.workspace.onDidChangeTextDocument(findAndReplaceTargetExpressions);
+
+	// Triggered with language id change
+	vscode.workspace.onDidOpenTextDocument(
+		(document) => {
+			if (activeEditor && activeEditor.document === document) {
+				togglemarkdown(activeEditor.document.languageId);
+			}
+		},
+		null,
+		context.subscriptions
+	);
+
+	register(context);
+	output.appendLine(`[${msTimeValue}] - Registered markdown shortcuts`);
+
 
 	console.log('Activated extension "vscode-markdown-adobe"');
+	// Extend MarkdownIt to process Adobe Flavored Markdown to HTML for preview.
 	return {
 		extendMarkdownIt(md: MarkdownIt) {
-			output.appendLine(
-				`Markdown-it plugin options are ${JSON.stringify(
-					md.options
-				)}`
-			);
-			let plugin = adobeMarkdownPlugin(md);
+			let plugin = adobeMarkdownPlugin(md, getRootFolder()?.uri.path || extensionPath);
 			md.use(injectSpectrumTheme);
 			return plugin;
-			// 	.use(require('markdown-it-replace-link'), {
-			// 		replaceLink: function (link: string, env: any) {
-			// 			return makeRelativeLink(link);
-			// 		},
-			// 	})
-			// 	.use(require('markdown-it-adobe-plugin'),
-			// 		{
-			// 			root: getRootFolder()?.uri.path,
-			// 			throwError: false
-			// 		});
 		},
 	};
 }
@@ -50,9 +118,9 @@ function sanitizeSpectrumTheme(theme: string | undefined) {
 function injectSpectrumTheme(md: any) {
 	const render = md.renderer.render;
 	md.renderer.render = function () {
-		const darkModeTheme = sanitizeSpectrumTheme(vscode.workspace.getConfiguration(configSection).get('darkModeTheme'));
-		const lightModeTheme = sanitizeSpectrumTheme(vscode.workspace.getConfiguration(configSection).get('lightModeTheme'));
-		return `<span id="${configSection}" aria-hidden="true"
+		const darkModeTheme = sanitizeSpectrumTheme(vscode.workspace.getConfiguration(spectrumConfigSection).get('darkModeTheme'));
+		const lightModeTheme = sanitizeSpectrumTheme(vscode.workspace.getConfiguration(spectrumConfigSection).get('lightModeTheme'));
+		return `<span id="${spectrumConfigSection}" aria-hidden="true"
                     data-dark-mode-theme="${darkModeTheme}"
                     data-light-mode-theme="${lightModeTheme}"></span>
                 ${render.apply(md.renderer, arguments)}`;

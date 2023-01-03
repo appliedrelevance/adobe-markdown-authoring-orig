@@ -23,13 +23,15 @@ export enum TokenType {
 }
 
 export default function adobeMarkdownPlugin(
-    md: MarkdownIt) {
-    md.use(injectTransforms);
+    md: MarkdownIt, filePath: string) {
+    md.use(injectTransforms, filePath);
     return md;
 }
 
-function injectTransforms(md: MarkdownIt, options: Options) {
-    md.core.ruler.before('normalize', 'include', includeFileParts);
+function injectTransforms(md: MarkdownIt, filePath: string) {
+    // Process the snippets first because they operate directly on the Markdown source instead of the tokens.
+    md.core.ruler.before('normalize', 'include', (state) => { includeFileParts(state, filePath); });
+    // Now add the token transforms.
     md.core.ruler.after('block', 'tabs', transformTabs);
     md.core.ruler.after('block', 'shadebox', transformShadebox);
     md.core.ruler.after('block', 'collapsible', transformCollapsible);

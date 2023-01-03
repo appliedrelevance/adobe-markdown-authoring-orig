@@ -6,7 +6,6 @@ const INCLUDE_RE: RegExp = /\{\{\$include\s+(.+)\}\}/i;
 const SNIPPET_RE: RegExp = /\{\{(.+)\}\}/i;
 const SNIPPET_HEADER_RE: RegExp = /##\s+(.*)\{#(.*)\}/i;
 const SNIPPET_FILE: string = 'help/_includes/snippets.md';
-const INCLUDE_PATH: string = 'help/_includes';
 const NOT_FOUND_MESSAGE: string = "File '{{FILE}}' not found.";
 const CIRCULAR_MESSAGE: string = "Circular reference between '{{FILE}}' and '{{PARENT}}'.";
 
@@ -21,24 +20,26 @@ interface ISnippetHash {
 }
 
 /**
- * Find all {{$include <path>}} tags and replace them with the contents of the named file.
+ * Find all {{$include <path>}} tags and replace them with the contents of the named file.  This is a recursive function.
  *  */
 function replaceIncludes(
     src: string,
-    rootdir: any,
+    rootDir: string,
     parentFilePath?: string,
     filesProcessed?: string[]
 ): string {
 
     filesProcessed = filesProcessed ? filesProcessed.slice() : []; // making a copy
+
     let cap, filePath, mdSrc, errorMessage; // store parent file path to check circular references
+
     if (parentFilePath) {
         filesProcessed.push(parentFilePath);
     }
 
     while ((cap = INCLUDE_RE.exec(src))) {
         let includePath = cap[1].trim();
-        filePath = path.join(rootdir, includePath); // check if child file exists or if there is a circular reference
+        filePath = path.join(rootDir, includePath); // check if child file exists or if there is a circular reference
         if (!fs.existsSync(filePath)) {
             // child file does not exist
             errorMessage = NOT_FOUND_MESSAGE.replace('{{FILE}}', filePath);
@@ -46,11 +47,13 @@ function replaceIncludes(
             // reference would be circular
             errorMessage = CIRCULAR_MESSAGE
                 .replace('{{FILE}}', filePath)
-                .replace('{{PARENT}}', parentFilePath || '');
+                .replace('{{PARENT}}', parentFilePath || '**UNKNOWN**');
         }
 
         if (errorMessage) {
-            // replace include with error message
+            // if (options.throwError) {
+            //     throw new Error(errorMessage);
+            // }
             mdSrc = `\n\n# INCLUDE ERROR: ${errorMessage}\n\n`;
         } else {
             // get content of child file
@@ -83,20 +86,24 @@ function replaceIncludes(
 }
 
 /**
- * // read the snippet file and parse the content between matching snippedHeaderRe regular expression, indexed by the
-    // snippet name from the 2nd group of the regular expression.
+ * Load the snippets file and return a hash of snippets.  For Experience League editing , the snippets file path
+ * is hard-coded to be in the 'help/_includes/snippets.md' directory.
  * @returns  {string} the content of the snippet file   
  */
-function loadSnippetsFile(): ISnippetHash {
+function loadSnippetsFile(rootDir: string): ISnippetHash {
+    const snippetFile = path.join(
+        rootDir,
+        SNIPPET_FILE
+    );
     const localSnippets: ISnippetHash = {};
-    if (fs.existsSync(SNIPPET_FILE)) {
-        const snippetContent = fs.readFileSync(SNIPPET_FILE, 'utf8');
-        const snippetLines = snippetContent.split('\n');
+    if (fs.existsSync(snippetFile)) {
+        const snippetContent: string = fs.readFileSync(snippetFile, 'utf8');
+        const snippetLines: string[] = snippetContent.split('\n');
         let snippet: ISnippet = { name: '', text: '', content: '' };
         let snippetName: string = '';
-        snippetLines.forEach((line: { toString: () => string; }) => {
-            const lineStr = line.toString().trim();
-            const match = SNIPPET_HEADER_RE.exec(lineStr);
+        snippetLines.forEach((line: string) => {
+            const lineStr: string = line.toString().trim();
+            const match: RegExpExecArray | undefined = SNIPPET_HEADER_RE.exec(lineStr);
             if (match) {
                 const text = match[1];
                 snippetName = match[2];
@@ -119,7 +126,7 @@ function loadSnippetsFile(): ISnippetHash {
 }
 
 function replaceSnippets(src: string, rootDir: string): string {
-    let snippets: ISnippetHash = loadSnippetsFile();
+    let snippets: ISnippetHash = loadSnippetsFile(rootDir);
     if (!snippets) {
         return src;
     }
@@ -142,8 +149,7 @@ function replaceSnippets(src: string, rootDir: string): string {
 /**
  * 
  */
-export function includeFileParts(state: StateCore) {
-    const rootDir = ruleOptions.rootDir || INCLUDE_PATH;
+export function includeFileParts(state: StateCore, rootDir: string) {
     state.src = replaceIncludes(state.src, rootDir);
     state.src = replaceSnippets(state.src, rootDir);
 }
