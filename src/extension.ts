@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import MarkdownIt, { Options } from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 import adobeMarkdownPlugin from '../src-plugin';
 import {
 	checkMarkdownlintCustomProperty,
@@ -8,7 +8,6 @@ import {
 import { generateTimestamp, output } from './lib/common';
 import { register } from './lib/commands';
 import { findAndReplaceTargetExpressions, getRootFolder } from './lib/utiity';
-
 
 const spectrumConfigSection = 'markdown-spectrum';
 

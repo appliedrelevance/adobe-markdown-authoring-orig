@@ -163,8 +163,8 @@ export function checkMarkdownlintConfigSettings() {
 export function checkMarkdownlintCustomProperty() {
 	const { msTimeValue } = generateTimestamp();
 	const customProperty = 'markdownlint.customRules';
-	const customRuleset = '{adobeexl.adobe-markdown-authoring}/markdownlint-custom-rules/rules.js';
-	const docsMarkdownRuleset = '{adobeexl.adobe-markdown-authoring}/markdownlint-custom-rules/rules.js';
+	const customRuleset = "{adobe.adobe-markdown-authoring}/dist-rules/index.bundle.js";
+	const docsMarkdownRuleset = "{adobe.adobe-markdown-authoring}/dist-rules/index.bundle.js";
 	const customPropertyData: any = workspace.getConfiguration().inspect(customProperty);
 	// new list for string comparison and updating.
 	const existingUserSettings: string[] = [];

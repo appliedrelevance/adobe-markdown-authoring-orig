@@ -243,7 +243,7 @@ Adobe Flavored Markdown.
 
 ```
   "markdownlint.customRules": [
-    "{adobeexl.adobe-markdown-authoring}/markdownlint-custom-rules/rules.js"
+    "{adobe.adobe-markdown-authoring}/dist-rules/index.bundle.js"
   ]
 ```
 
