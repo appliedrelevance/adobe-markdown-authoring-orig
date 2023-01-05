@@ -616,10 +616,10 @@
     "MD045": false
   },
   "markdownlint.customRules": [
-    "{adobe.adobe-markdown-authoring}/dist-rules/index.bundle.js"
+    "{adobe.adobe-markdown-authoring}/src-rules/index.bundle.js"
   ],
   "scripts": {
-    "build": "npm run build-preview && npm run build-plugin && npm run build-rules && npm run compile-ext",
+    "build": "npm run build-preview && npm run build-plugin && npm run compile-ext",
     "build-preview": "webpack --mode=development --config ./build/preview.webpack.config.js",
     "build-plugin": "webpack --mode=development --config ./build/plugin.webpack.config.js",
     "build-rules": "webpack --mode=development --config ./build/rules.webpack.config.js",
@@ -632,6 +632,8 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
     "@types/glob": "^8.0.0",
     "@types/markdown-it": "^12.2.3",
     "@types/mocha": "^10.0.1",
@@ -640,6 +642,7 @@
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.0",
+    "babel-loader": "^9.1.2",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
     "mini-css-extract-plugin": "^2.7.2",

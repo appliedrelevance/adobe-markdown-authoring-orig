@@ -12,15 +12,14 @@ module.exports = {
     module: {
         rules: [
             {
-                parser: {
-                    amd: false
-                },
-                include: /node_modules\/lodash\// // https://github.com/lodash/lodash/issues/3052
-            },
-            {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: { loader: 'babel-loader' }
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
             },
             {
                 test: /\.css$/,
