@@ -299,7 +299,7 @@ export const flattenLists = function flattenLists() {
 };
 
 // Adds a generic error object via the onError callback
-export const addError = (onError: (ctx: ErrorContext) => void, lineNumber: number, detail: string | null, line: string, range: any) => {
+export const addError = (onError: (ctx: ErrorContext) => void, lineNumber: number, detail: string | null, line: string, range?: any) => {
   onError({ lineNumber, detail, line, range });
 };
 
