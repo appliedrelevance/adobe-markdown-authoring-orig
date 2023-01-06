@@ -6,6 +6,7 @@ dist-preview/**
 dist-plugin/**
 node_modules/**
 src/**
+tmp/**
 .gitignore
 .yarnrc
 webpack.config.js

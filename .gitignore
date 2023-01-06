@@ -1,5 +1,6 @@
 out
 dist
+tmp
 dist-plugin
 dist-preview
 dist-rules
