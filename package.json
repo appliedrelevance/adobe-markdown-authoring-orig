@@ -616,10 +616,10 @@
     "MD045": false
   },
   "markdownlint.customRules": [
-    "{adobe.adobe-markdown-authoring}/src-rules/index.bundle.js"
+    "{adobe.adobe-markdown-authoring}/dist-rules/rules.bundle.js"
   ],
   "scripts": {
-    "build": "npm run build-preview && npm run build-plugin && npm run compile-ext",
+    "build": "npm run build-preview && npm run build-plugin && npm run build-rules && npm run compile-ext",
     "build-preview": "webpack --mode=development --config ./build/preview.webpack.config.js",
     "build-plugin": "webpack --mode=development --config ./build/plugin.webpack.config.js",
     "build-rules": "webpack --mode=development --config ./build/rules.webpack.config.js",
@@ -636,6 +636,7 @@
     "@babel/preset-env": "^7.20.2",
     "@types/glob": "^8.0.0",
     "@types/markdown-it": "^12.2.3",
+    "@types/markdownlint": "^0.18.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
     "@types/vscode": "^1.74.0",

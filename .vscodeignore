@@ -4,8 +4,8 @@ out/**
 dist/**
 dist-preview/**
 dist-plugin/**
+dist-rule/**
 node_modules/**
-src/**
 tmp/**
 .gitignore
 .yarnrc
