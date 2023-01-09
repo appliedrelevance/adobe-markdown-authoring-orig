@@ -1,94 +1,27 @@
-// @ts-check
-
 "use strict";
 
-import { filterTokens } from "../shared";
+import { addError, containsAfmTag, containsSingleLineAfmTag, ErrorContext, FilterParams } from "../shared";
 import { MarkdownItToken } from "markdownlint";
-
-var blocktags = [
-  'NOTE',
-  'TIP',
-  'IMPORTANT',
-  'WARNING',
-  'CAUTION',
-  'MORELIKETHIS',
-  'CONTEXTUALHELP',
-  'ADMIN',
-  'AVAILABILITY',
-  'PREREQUISITES',
-  'Related Articles',
-  'ERROR',
-  'SUCCESS',
-  'INFO',
-  '__BETA_ACCORDIAN',
-  '__BETA_TAB',
-  'BEGINSHADEBOX',
-  'ENDSHADEBOX',
-  'TABS',
-  'TAB'
-];
-
-var singleLineBlocktags = [
-  'VIDEO',
-  '__BETA',
-  'BEGINTABS',
-  'ENDTABS',
-  'TAB',
-  'BEGINSHADEBOX',
-  'ENDSHADEBOX'
-];
-
-function containsAfmTag(line) {
-  var foundtag = false
-  for (var i = 0, len = blocktags.length; i < len; i++) {
-    var tags = line.match('!' + blocktags[i])
-    if (!foundtag) {
-      if (tags != null) {
-        foundtag = true
-      } else {
-        foundtag = false
-      }
-    }
-  }
-  return foundtag
-}
-
-function containsSingleLineAfmTag(line) {
-  var foundtag = false
-  for (var i = 0, len = singleLineBlocktags.length; i < len; i++) {
-    var tags = line.match('!' + singleLineBlocktags[i])
-    if (!foundtag) {
-      if (tags != null) {
-        foundtag = true
-      } else {
-        foundtag = false
-      }
-    }
-  }
-  return foundtag
-}
-
-
 
 module.exports = {
   "names": ["AM028", "empty-admonition-block"],
   "description": "Admonition has blank line or no content",
   "tags": ["blockquote", "whitespace"],
   "function": function AM028(params: FilterParams, onError: (context: ErrorContext) => void) {
-    params.tokens.forEach(function forToken(token) {
+    params.tokens.forEach(function forToken(token: MarkdownItToken) {
       if (token.type === "blockquote_open") {
         if (containsAfmTag(token.line)) {
-          var admonitionContentLength = 0
-          var numlines = token.map[1] - token.map[0]
+          var admonitionContentLength = 0;
+          var numlines = token.map[1] - token.map[0];
           if (numlines < 2 && !containsSingleLineAfmTag(token.line)) {
-            addError(onError, token.lineNumber);
+            addError(onError, token.lineNumber, "Admonition has blank line or no content", token.line);
           } else if (!containsSingleLineAfmTag(token.line)) {
             for (let i = token.map[0] + 1; i < token.map[1]; i++) {
-              var line = params.lines[i].replace(/[\s]*>/, '').trim()
-              admonitionContentLength = admonitionContentLength + line.length
+              var line = params.lines[i].replace(/[\s]*>/, '').trim();
+              admonitionContentLength = admonitionContentLength + line.length;
             }
-            if (admonitionContentLength == 0) {
-              addError(onError, token.lineNumber);
+            if (admonitionContentLength === 0) {
+              addError(onError, token.lineNumber, "Admonition has blank line or no content", token.line);
             }
           }
         }
@@ -96,11 +29,11 @@ module.exports = {
     });
 
     // check for blank lines in non-afm block quote
-    var prevToken = {};
-    params.tokens.forEach(function forToken(token) {
+    var prevToken: MarkdownItToken;
+    params.tokens.forEach(function forToken(token: MarkdownItToken) {
       if ((token.type === "blockquote_open") &&
-        (prevToken.type === "blockquote_close") && !containsAfmTag(token.line) && !containsSingleLineAfmTag(token.line)) {
-        addError(onError, token.lineNumber - 1);
+        (prevToken?.type === "blockquote_close") && !containsAfmTag(token.line) && !containsSingleLineAfmTag(token.line)) {
+        addError(onError, token.lineNumber - 1, "Blank lines in non-afm blockquote", token.line);
       }
       prevToken = token;
     });

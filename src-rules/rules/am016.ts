@@ -1,9 +1,6 @@
-// @ts-check
-
 "use strict";
 
-import { filterTokens } from "../shared";
-import { MarkdownItToken } from "markdownlint";
+import { addErrorContext, ErrorContext, FilterParams, filterTokens, forEachLine, isInCodeBlock } from "../shared";
 
 module.exports = {
     "names": ["AM016", "mismatched-brackets-backticks"],
@@ -11,79 +8,46 @@ module.exports = {
     "tags": ["code", "indent_level"],
     "function": function AM016(params: FilterParams, onError: (context: ErrorContext) => void) {
         const lines = params.lines;
-        var openFenceIndent = -1
-        var inCodeBlock = false
-        var lastFenceLine = -1
-        var codeblockcount = 0
-        var pre = ''
+        var inCodeBlock = false;
+        var pre = '';
         forEachLine(function forLine(line, i) {
 
-            var prevInCodeBlock = inCodeBlock
-            inCodeBlock = inCodeBlock(line, inCodeBlock)
+            var prevInCodeBlock = inCodeBlock;
+            inCodeBlock = isInCodeBlock(line, inCodeBlock);
             if (inCodeBlock || prevInCodeBlock) { // } || (line.match(/.*?```/) || []).length > 0) {
-                pre = '>'
+                pre = '>';
             } else {
-                pre = '   '
+                pre = '   ';
             }
-            // console.log(pre + line)
 
             if (!inCodeBlock) {
-                var oldline = line
-                // line = oldline.replace(/`{1,3}.*?`{1,3}/g, ' <code> ')
-                line = oldline.replace(/```.*?```/g, ' <code3> ')
-                line = line.replace(/^[\s]*[>]*[\s]*```/, '<fence>')
-                line = line.replace(/``.*?``/g, ' <code2> ')
-                line = line.replace(/`.*?`/g, ' <code1> ')
-                line = line.replace(/\\`/g, '&grave')
+                var oldline = line;
+                line = oldline.replace(/```.*?```/g, ' <code3> ');
+                line = line.replace(/^[\s]*[>]*[\s]*```/, '<fence>');
+                line = line.replace(/``.*?``/g, ' <code2> ');
+                line = line.replace(/`.*?`/g, ' <code1> ');
+                line = line.replace(/\\`/g, '&grave');
 
-                var opensquares = (line.match(/\[/g) || []).length
-                var clossquares = (line.match(/\]/g) || []).length
-                var openparens = (line.match(/\(/g) || []).length
-                var closparens = (line.match(/\)/g) || []).length
-                var openfrench = (line.match(/\{/g) || []).length
-                var closfrench = (line.match(/\}/g) || []).length
-                var openangle = (line.match(/\</g) || []).length
-                var closangle = (line.match(/\>/g) || []).length
-                var backticks = (line.match(/\`/g) || []).length
+                var opensquares = (line.match(/\[/g) || []).length;
+                var clossquares = (line.match(/\]/g) || []).length;
+                var openparens = (line.match(/\(/g) || []).length;
+                var closparens = (line.match(/\)/g) || []).length;
+                var openfrench = (line.match(/\{/g) || []).length;
+                var closfrench = (line.match(/\}/g) || []).length;
+                var openangle = (line.match(/\</g) || []).length;
+                var closangle = (line.match(/\>/g) || []).length;
+                var backticks = (line.match(/\`/g) || []).length;
 
-                // if (line != oldline) {
-                //     console.log(pre + '- ' + oldline)
-                //     console.log(pre + '+ ' + line)
-                // }
-                // else {
-                //     console.log(pre + line)
-                // }
-                if (backticks % 2 != 0) {
+                if (backticks % 2 !== 0) {
                     //unclosed backtick/inline code block -- odd number of backticks
                     addErrorContext(onError, i + 1, lines[i].trim());
                 }
 
-                if (opensquares != clossquares) {
-                    // if (line != oldline) {
-                    //     console.log('OLD: ' + oldline)
-                    //     console.log('NEW: ' + line)
-                    //     console.log()
-                    // }
-
-                    // console.log('Mismatched square brackets: ' + opensquares + ':' + clossquares + ' ' + line)
+                if (opensquares !== clossquares) {
                     addErrorContext(onError, i + 1, lines[i].trim());
                 }
-                // if (openparens != closparens) {
-                //     console.log('Mismatched parens: ' + line)
-                //     addErrorContext(onError, i + 1, lines[i].trim());
-                // }
-                // if (openangle != closangle) {
-                //     console.log('Mismatched angle brackets: ' + line)
-                //     addErrorContext(onError, i + 1, lines[i].trim());
-                // }
 
-                if (openfrench != closfrench) {
-                    // console.log('Mismatched french braces: ' + line)
-                    // if (line != oldline) {
-                    //     console.log('OLD: ' + oldline)
-                    //     console.log('NEW: ' + line)
-                    //     console.log()
-                    // }
+                if (openfrench !== closfrench) {
                     addErrorContext(onError, i + 1, lines[i].trim());
                 }
 

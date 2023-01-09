@@ -1,8 +1,6 @@
-// @ts-check
-
 "use strict";
 
-import { filterTokens } from "../shared";
+import { addErrorContext, ErrorContext, FilterParams, filterTokens } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
 const listItemMarkerInterruptsRe = /^[\s>]*(?:[*+-]|1\.)\s+/;
@@ -16,12 +14,12 @@ module.exports = {
     let inList = false;
     let prevLine = "";
 
-    filterTokens(params, 'list_item_open', function forToken(token) {
+    filterTokens(params, 'list_item_open', function forToken(token: MarkdownItToken) {
       // console.log(token)
-      let match = /^[0-9*+-]+[\.]*$/.exec(token.line.trim())
+      let match = /^[0-9*+-]+[\.]*$/.exec(token.line.trim());
       if (match) {
-        addErrorContext(onError, token.lineNumber, token.line)
+        addErrorContext(onError, token.lineNumber, token.line);
       }
-    })
+    });
   }
 };

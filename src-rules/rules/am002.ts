@@ -1,5 +1,3 @@
-// @ts-check
-
 "use strict";
 
 import { addErrorContext, ErrorContext, FilterParams, filterTokens } from "../shared";
@@ -11,7 +9,7 @@ module.exports = {
   "tags": ["headings", "headers"],
   "function": function AM002(params: FilterParams, onError: (context: ErrorContext) => void) {
     let prevLevel = 0;
-    filterTokens(params, "heading_open", function forToken(token) {
+    filterTokens(params, "heading_open", function forToken(token: MarkdownItToken) {
       var heading_title = token.line.replace(/^[#]+ /g, "");
       if (heading_title.match(/.*{#.*[ ].*}/)) {
         addErrorContext(onError, token.lineNumber, token.line);

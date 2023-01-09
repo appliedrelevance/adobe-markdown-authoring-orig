@@ -1,8 +1,6 @@
-// @ts-check
-
 "use strict";
 
-import { filterTokens } from "../shared";
+import { addErrorContext, ErrorContext, FilterParams, filterTokens } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
 module.exports = {
@@ -11,7 +9,7 @@ module.exports = {
   "tags": ["headings", "headers"],
   "function": function AM010(params: FilterParams, onError: (context: ErrorContext) => void) {
     let prevLevel = 0;
-    filterTokens(params, "heading_open", function forToken(token) {
+    filterTokens(params, "heading_open", function forToken(token: MarkdownItToken) {
       var heading_title = token.line.replace(/^[#]+ /g, "");
       if (heading_title.match(/.*{#.*[#].*}/)) {
         addErrorContext(onError, token.lineNumber, token.line);

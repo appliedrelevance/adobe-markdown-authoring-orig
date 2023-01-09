@@ -1,8 +1,6 @@
-// @ts-check
-
 "use strict";
 
-import { filterTokens } from "../shared";
+import { addError, ErrorContext, FilterParams, filterTokens } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
 module.exports = {
@@ -11,16 +9,16 @@ module.exports = {
   "tags": ["tables"],
 
   "function": function AM023(params: FilterParams, onError: (context: ErrorContext) => void) {
-    filterTokens(params, "table_open", function forToken(token) {
+    filterTokens(params, "table_open", function forToken(token: MarkdownItToken) {
       // remove whitespace and > if it's a note block
-      var line = token.line.trim().replace(/^>/, '').trim()
+      var line = token.line.trim().replace(/^>/, '').trim();
       if (!line.startsWith("|")) {
         var lineNumber = token.lineNumber; // + params.frontMatterLines.length;
         // console.log(token, params.frontMatterLines.length)
-        addError(onError, lineNumber)
+        addError(onError, lineNumber, "Missing Table pipes", line);
 
       }
-    })
+    });
 
   }
 };

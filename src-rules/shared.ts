@@ -49,6 +49,86 @@ export const orderedListItemMarkerRe: RegExp = /^[\s>]*0*(\d+)[.)]/;
 // readFile options for reading with the UTF-8 encoding
 export const utf8Encoding = { "encoding": "utf8" };
 
+export const blocktags = [
+  'NOTE',
+  'TIP',
+  'IMPORTANT',
+  'WARNING',
+  'CAUTION',
+  'VIDEO',
+  'MORELIKETHIS',
+  'CONTEXTUALHELP',
+  'ADMIN',
+  'AVAILABILITY',
+  'PREREQUISITES',
+  'Related Articles',
+  'ERROR',
+  'SUCCESS',
+  'INFO',
+  '__BETA_',
+  'TAB',
+  'BEGINSHADEBOX',
+  'ENDSHADEBOX',
+  'BEGINTABS',
+  'ENDTABS'
+];
+
+export const blocktags_with_options = [
+  'TAB',
+  'BEGINSHADEBOX',
+  'BEGINTABS'
+];
+
+export const inlinetags = [
+  'UICONTROL',
+  'DNL',
+  '__BETA_',
+  'BADGE'
+];
+
+
+export const singleLineBlocktags = [
+  'VIDEO',
+  '__BETA',
+  'BEGINTABS',
+  'ENDTABS',
+  'TAB',
+  'BEGINSHADEBOX',
+  'ENDSHADEBOX'
+];
+
+export const containsSingleLineAfmTag = (line: string) => {
+  var foundtag = false;
+  for (var i = 0, len = singleLineBlocktags.length; i < len; i++) {
+    var tags = line.match('!' + singleLineBlocktags[i]);
+    if (!foundtag) {
+      if (tags !== null) {
+        foundtag = true;
+      } else {
+        foundtag = false;
+      }
+    }
+  }
+  return foundtag;
+};
+
+export const alltags = blocktags.concat(inlinetags);
+
+export const containsAfmTag = (line: any) => {
+  var foundtag = false;
+  for (var i = 0, len = blocktags.length; i < len; i++) {
+    var tags = line.match('!' + blocktags[i]);
+    if (!foundtag) {
+      if (tags! += null) {
+        foundtag = true;
+      } else {
+        foundtag = false;
+      }
+    }
+  }
+  return foundtag;
+};
+
 // slugify string
 export const slugify = (str: string) => {
   var slug: string = encodeURIComponent(String(str).trim().toLowerCase().replace(/\s+/g, '-'));
@@ -281,7 +361,7 @@ export const forEachInlineChild =
   };
 
 // Calls the provided function for each heading's content
-export const forEachHeading = function forEachHeading(params: FilterParams, callback: (arg0: any, arg1: any) => void) {
+export const forEachHeading = function forEachHeading(params: FilterParams, callback: (heading: MarkdownItToken, content: string) => void) {
   let heading: MarkdownItToken | null = null;
   params.tokens.forEach((token: MarkdownItToken) => {
     if (token.type === "heading_open") {
@@ -306,13 +386,12 @@ export const addError = (onError: (ctx: ErrorContext) => void, lineNumber: numbe
 
 // Adds an error object with details conditionally via the onError callback
 export const addErrorDetailIf = (
-  onError: any, lineNumber: any, expected: string, actual: string, detail: string, range: any) => {
+  onError: (ctx: ErrorContext) => void, lineNumber: number, expected: string, actual: string, detail: string | null, range?: number[]) => {
   if (expected !== actual) {
     addError(
       onError,
       lineNumber,
-      (expected ? "Expected: " + expected + "; Actual: " : "") + actual +
-      (detail ? "; " + detail : ""),
+      (expected ? "Expected: " + expected + "; Actual: " : "") + actual + (detail ? "; " + detail : ""),
       "",
       range);
   }
@@ -320,7 +399,7 @@ export const addErrorDetailIf = (
 
 // Adds an error object with context via the onError callback
 export const addErrorContext =
-  (onError: any, lineNumber: any, line: string, left?: any, right?: any, range?: any) => {
+  (onError: (ctx: ErrorContext) => void, lineNumber: number, line: string, left?: any, right?: any, range?: number[]) => {
     if (line.length <= 30) {
       // Nothing to do
     } else if (left && right) {
@@ -363,14 +442,12 @@ export const rangeFromRegExp = (line: string, regexp: RegExp) => {
 };
 
 // Check if we are in a code block
-export const inCodeBlock = (line: string, incode: any) => {
+export const isInCodeBlock = (line: string, incode: any) => {
   const codeBlockRe = new RegExp("^[\\s]*[>]*[\\s]*```[^`]*$");
-  const htmlCodeBlockRe = new RegExp("<");
   var incodeblock = incode;
   const codeBlockMatch = codeBlockRe.exec(line);
   if (codeBlockMatch) {
     incodeblock = !incodeblock;
   }
   return incodeblock;
-
 };

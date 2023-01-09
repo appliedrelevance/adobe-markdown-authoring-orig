@@ -1,5 +1,3 @@
-// @ts-check
-
 "use strict";
 
 import { addErrorContext, ErrorContext, FilterParams, forEachLine } from "../shared";

@@ -1,5 +1,3 @@
-// @ts-check
-
 "use strict";
 
 import { MarkdownItToken } from "markdownlint";

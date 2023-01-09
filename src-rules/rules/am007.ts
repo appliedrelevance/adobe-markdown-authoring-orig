@@ -1,5 +1,3 @@
-// @ts-check
-
 "use strict";
 
 import { addError, ErrorContext, FilterParams, forEachHeading, rangeFromRegExp } from "../shared";

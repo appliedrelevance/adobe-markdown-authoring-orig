@@ -1,9 +1,6 @@
-// @ts-check
-
 "use strict";
 
-import { filterTokens } from "../shared";
-import { MarkdownItToken } from "markdownlint";
+import { addError, addErrorContext, ErrorContext, FilterParams, filterTokens, forEachLine } from "../shared";
 
 module.exports = {
     "names": ["AM012", "code-block-indent-and-fence"],
@@ -11,43 +8,37 @@ module.exports = {
     "tags": ["code", "indent_level"],
     "function": function AM012(params: FilterParams, onError: (context: ErrorContext) => void) {
         const lines = params.lines;
-        var openFenceIndent = -1
-        var inCode = false
-        var lastFenceLine = -1
-        var codeblockcount = 0
+        var openFenceIndent = -1;
+        var inCode = false;
+        var lastFenceLine = -1;
+        var codeblockcount = 0;
 
         forEachLine(function forLine(line, i) {
-            var oldline = line
-            line = line.replace('>', ' ')  // get rid of blockquotes
-            line = line.replace(/```.*?```/, 'reg')  // remove inline code
-            line = line.replace(/^[\s]*\\[\s]*$/, '') // remove backslashes used as replacements for html comments in clearHtmlCommentText()
+            var oldline = line;
+            line = line.replace('>', ' ');  // get rid of blockquotes
+            line = line.replace(/```.*?```/, 'reg');  // remove inline code
+            line = line.replace(/^[\s]*\\[\s]*$/, ''); // remove backslashes used as replacements for html comments in clearHtmlCommentText()
 
-            // if (line != oldline) {
-            //     console.log('< ' + oldline)
-            //     console.log('> ' + line)
-            //     console.log()
-            // }
+            var lineindent = line.search(/\S|$/);
+            var fenceindent = line.search('```');
+            var inline = false;
+            var inlinehits = line.match(/```.*```/g); //+ line.match(/`.*```.*`/g)
 
-            var lineindent = line.search(/\S|$/)
-            var fenceindent = line.search('```')
-            var inline = false
-            var inlinehits = line.match(/```.*```/g) //+ line.match(/`.*```.*`/g)
-
-            if (inlinehits != null && inlinehits > 0) {
-                inline = true
+            if (inlinehits !== null && inlinehits > 0) {
+                inline = true;
             }
-            // console.log(line.trim().search('```') + ':' + line.trim())
-            if (fenceindent >= 0 && !inline && line.trim().search('```') == 0) {  // we have a codeblock fence AND it is not ```inline```
-                codeblockcount++
+
+            if (fenceindent >= 0 && !inline && line.trim().search('```') === 0) {  // we have a codeblock fence AND it is not ```inline```
+                codeblockcount++;
                 if (inCode) {
-                    if (openFenceIndent != fenceindent) {
+                    if (openFenceIndent !== fenceindent) {
                         addErrorContext(onError, i + 1, lines[i].trim());
                     }
-                    inCode = false
+                    inCode = false;
                 } else {
-                    inCode = true
-                    openFenceIndent = fenceindent
-                    lastFenceLine = i
+                    inCode = true;
+                    openFenceIndent = fenceindent;
+                    lastFenceLine = i;
                 }
             }
             else {
@@ -66,8 +57,7 @@ module.exports = {
 
         });
         if (inCode) {
-            module.exports['description'] = 'Unclosed codeblock'
-            addError(onError, lastFenceLine + 1, lines[lastFenceLine].trim());
+            addError(onError, lastFenceLine + 1, "Unclosed codeblock", lines[lastFenceLine].trim());
         }
 
 
