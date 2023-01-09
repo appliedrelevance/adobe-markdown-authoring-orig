@@ -22,6 +22,7 @@ export type ErrorContext = {
 };
 
 export type FilterParams = {
+  name: string;
   lines: string[];
   frontMatterLines: string[];
   tokens: MarkdownItToken[];

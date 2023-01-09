@@ -2,7 +2,7 @@
 
 "use strict";
 
-import { filterTokens } from "../shared";
+import { addError, ErrorContext, FilterParams, forEachHeading, rangeFromRegExp } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
 module.exports = {
@@ -12,12 +12,12 @@ module.exports = {
   "function": function AM007(params: FilterParams, onError: (context: ErrorContext) => void) {
     const anchorMissingHashRe = new RegExp("{[^#][^=]*}$");
     forEachHeading(params, function forHeading(heading, content) {
-      content = content.replace(/{{.*?}}/, 'SNIPPET')
+      content = content.replace(/{{.*?}}/, 'SNIPPET');
       const match = anchorMissingHashRe.exec(content);
       if (match) {
         // console.log(content)
         addError(onError, heading.lineNumber,
-          "Anchor without #: '" + match[0] + "'", null,
+          "Anchor without #: '" + match[0] + "'", "",
           rangeFromRegExp(heading.line, anchorMissingHashRe));
       }
     });

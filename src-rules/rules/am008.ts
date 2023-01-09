@@ -2,7 +2,7 @@
 
 "use strict";
 
-import { filterTokens } from "../shared";
+import { addError, ErrorContext, FilterParams, forEachHeading, rangeFromRegExp } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
       const match = headingHasLinkRe.exec(content);
       if (match) {
         addError(onError, heading.lineNumber,
-          "Heading contains a link: '" + match[0] + "'", null,
+          "Heading contains a link: '" + match[0] + "'", "",
           rangeFromRegExp(heading.line, headingHasLinkRe));
       }
     });

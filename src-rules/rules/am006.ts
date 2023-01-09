@@ -2,7 +2,7 @@
 
 "use strict";
 
-import { filterTokens } from "../shared";
+import { addErrorContext, ErrorContext, FilterParams, forEachLine } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
 module.exports = {
