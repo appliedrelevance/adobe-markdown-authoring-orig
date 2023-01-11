@@ -1,16 +1,26 @@
 "use strict";
 
-import { addError, ErrorContext, FilterParams, filterTokens, forEachLine, rangeFromRegExp } from "../shared";
+import {
+  addError,
+  ErrorContext,
+  FilterParams,
+  filterTokens,
+  forEachLine,
+  rangeFromRegExp,
+} from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-module.exports = {
-  "names": ["AM004", "malformed-table"],
-  "description": "Malformed markdown table",
-  "tags": ["tables", "asideblock"],
+export const am004 = {
+  names: ["AM004", "malformed-table"],
+  description: "Malformed markdown table",
+  tags: ["tables", "asideblock"],
 
-  "function": function AM004(params: FilterParams, onError: (context: ErrorContext) => void) {
-    const tableMissingCloseRe = new RegExp("^\\s*\\|(.*?)[^\\|]\$");
-    const asideBlockRe = new RegExp("^\\|[^\\|]\*\$");    // const missingClosingPipe = new RegExp("^\\s*\\")
+  function: function AM004(
+    params: FilterParams,
+    onError: (context: ErrorContext) => void
+  ) {
+    const tableMissingCloseRe = new RegExp("^\\s*\\|(.*?)[^\\|]$");
+    const asideBlockRe = new RegExp("^\\|[^\\|]*$"); // const missingClosingPipe = new RegExp("^\\s*\\")
     const codeBlockRe = new RegExp("```");
     var inCodeBlock = false;
     var tablelines: string[] = [];
@@ -27,17 +37,20 @@ module.exports = {
       const asideblock = asideBlockRe.exec(line);
       const codeBlockMatch = codeBlockRe.exec(line);
       let errorList = [];
-      let errorBadStyle = 'incorrect table style: must be table-layout:auto or table-layout:fixed';
-      let errorOnlyStyle = 'style definition must be on line by itself';
-      let errorNoBlankLine = 'blank line between markdown table and style required';
-      let errorStyleBeforeTable = 'style definition must come after markdown table and blank line';
-      let errorStr = '';
+      let errorBadStyle =
+        "incorrect table style: must be table-layout:auto or table-layout:fixed";
+      let errorOnlyStyle = "style definition must be on line by itself";
+      let errorNoBlankLine =
+        "blank line between markdown table and style required";
+      let errorStyleBeforeTable =
+        "style definition must come after markdown table and blank line";
+      let errorStr = "";
 
       if (codeBlockMatch) {
         inCodeBlock = !inCodeBlock;
       }
 
-      line = line.replace(/`.*?`/, 'code');
+      line = line.replace(/`.*?`/, "code");
       if (!inCodeBlock && line.includes('{style="table')) {
         // No blank line between table and style
         let pass = false;
@@ -59,35 +72,47 @@ module.exports = {
           }
         }
         // Style definition must be on line by itself
-        if (line.replace(/{style="table-layout:.*?"}/, '').trim() !== "") {
+        if (line.replace(/{style="table-layout:.*?"}/, "").trim() !== "") {
           errorList.push(errorOnlyStyle);
         }
         // online auto and fixed are acceptable styles
         let style = line.replace(/.*?{style="(.*?)"}/, "$1").trim();
-        if (style !== 'table-layout:auto' && style !== 'table-layout:fixed') {
+        if (style !== "table-layout:auto" && style !== "table-layout:fixed") {
           errorList.push(errorBadStyle);
         }
         for (let step = 0; step < errorList.length; step++) {
-          if (errorStr !== '') {
-            errorStr += ', ';
+          if (errorStr !== "") {
+            errorStr += ", ";
           }
           errorStr += errorList[step];
         }
-        if (errorStr !== '') {
-          addError(onError, lineNumber, errorStr, line/*, rangeFromRegExp('/.')*/);
+        if (errorStr !== "") {
+          addError(
+            onError,
+            lineNumber,
+            errorStr,
+            line /*, rangeFromRegExp('/.')*/
+          );
         }
       }
       if (tableClose && !inCodeBlock) {
-        addError(onError, lineNumber,
-          line, "Table row missing closing pipe",
-          rangeFromRegExp(line, tableMissingCloseRe));
+        addError(
+          onError,
+          lineNumber,
+          line,
+          "Table row missing closing pipe",
+          rangeFromRegExp(line, tableMissingCloseRe)
+        );
       }
       if (asideblock && !inCodeBlock) {
-        addError(onError, lineNumber,
-          line, "Line contains errant pipe symbol",
-          rangeFromRegExp(line, asideBlockRe));
+        addError(
+          onError,
+          lineNumber,
+          line,
+          "Line contains errant pipe symbol",
+          rangeFromRegExp(line, asideBlockRe)
+        );
       }
     });
-  }
+  },
 };
-

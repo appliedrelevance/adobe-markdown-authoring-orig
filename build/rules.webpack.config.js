@@ -9,7 +9,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '..', 'dist-rules'),
-        filename: '[name].bundle.js'
+        filename: 'rules.bundle.js'
     },
     devtool: 'source-map'
 };

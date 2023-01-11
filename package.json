@@ -619,17 +619,17 @@
     "{adobe.adobe-markdown-authoring}/dist-rules/rules.bundle.js"
   ],
   "scripts": {
-    "build": "npm run build-preview && npm run build-plugin && npm run build-rules && npm run compile-ext",
+    "rebuild": "npm run clean && npm run build",
+    "build": "npm run build-preview && npm run build-plugin && npm run build-rules && npm run build-ext",
     "build-preview": "webpack --mode=development --config ./build/preview.webpack.config.js",
     "build-plugin": "webpack --mode=development --config ./build/plugin.webpack.config.js",
     "build-rules": "webpack --mode=development --config ./build/rules.webpack.config.js",
-    "vscode:prepublish": "npm run package",
-    "compile": "webpack --mode development",
-    "compile-ext": "webpack --mode development --config ./build/webpack.config.js",
-    "watch-ext": "webpack --watch --mode development --config ./build/webpack.config.js",
+    "build-ext": "webpack --mode development --config ./build/webpack.config.js",
+    "clean": "rimraf dist && rimraf dist-rules && rimraf dist-plugin && rimraf dist-preview",
     "package": "webpack --mode production --devtool hidden-source-map",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "vscode:prepublish": "npm run package"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
