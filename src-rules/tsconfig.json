@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "outDir": "../dist-rules",
+    "outDir": "../out",
     "rootDir": ".",
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
