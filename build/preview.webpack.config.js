@@ -11,4 +11,5 @@ module.exports = {
         path: path.join(__dirname, '..', 'dist-preview'),
         filename: '[name].bundle.js'
     },
+    devtool: 'source-map'
 };
