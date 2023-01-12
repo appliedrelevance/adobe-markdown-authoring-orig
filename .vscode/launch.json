@@ -11,11 +11,9 @@
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
       "outFiles": [
-        "${workspaceFolder}/dist/**/*.js",
-        "${workspaceFolder}/out/**/*.js",
-        "${workspaceFolder}/dist-plugin/**/*.js.map",
-        "${workspaceFolder}/dist-preview/**/*.js.map",
-        "${workspaceFolder}/dist-rules/**/*.js.map"
+        "${workspaceFolder}/dist/*.js",
+        "${workspaceFolder}/dist-preview/*.js",
+        "${workspaceFolder}/dist-rules/*.js"
       ],
       "preLaunchTask": "${defaultBuildTask}"
     },
