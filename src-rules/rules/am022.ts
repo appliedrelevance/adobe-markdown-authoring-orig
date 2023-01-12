@@ -1,27 +1,31 @@
 "use strict";
 
-import { addError, ErrorContext, FilterParams, filterTokens, forEachHeading, slugify } from "../shared";
-import { MarkdownItToken } from "markdownlint";
+import { ErrorContext, FilterParams, forEachHeading, slugify } from "../shared";
 
 module.exports = {
-  "names": ["AM022", "header-anchor-collision"],
-  "description": "Heading anchor has collision",
-  "tags": ["headings", "headers"],
-  "function": function AM022(params: FilterParams, onError: (context: ErrorContext) => void) {
+  names: ["AM022", "header-anchor-collision"],
+  description: "Heading anchor has collision",
+  tags: ["headings", "headers"],
+  function: function AM022(
+    params: FilterParams,
+    onError: (context: ErrorContext) => void
+  ) {
     var anchors = Object.create(null);
     var collision = Object.create(null);
 
     /* loop one to get list of all anchors */
     forEachHeading(params, function forHeading(heading, content) {
       var linenumber = heading.lineNumber;
-      var headingtitle = heading.line.replace(/^[#]+ /, '').replace(/[\s]*\{\#.*?\}[\s]*$/, '');
+      var headingtitle = heading.line
+        .replace(/^[#]+ /, "")
+        .replace(/[\s]*\{\#.*?\}[\s]*$/, "");
       var hasanchor = heading.line.search(/\{#.*?\}[\s]*$/) >= 0;
-      var anchorid = heading.line.replace(/^.*?[\s]*\{\#(.*?)\}[\s]*$/, '\$1');
-      var sluganchorid = '';
-      var key = '';
+      var anchorid = heading.line.replace(/^.*?[\s]*\{\#(.*?)\}[\s]*$/, "$1");
+      var sluganchorid = "";
+      var key = "";
 
-      headingtitle = headingtitle.replace(/\[!DNL (.*?)]/, "\$1");
-      headingtitle = headingtitle.replace(/\[!UICONTROL (.*?)]/, "\$1");
+      headingtitle = headingtitle.replace(/\[!DNL (.*?)]/, "$1");
+      headingtitle = headingtitle.replace(/\[!UICONTROL (.*?)]/, "$1");
 
       if (!hasanchor) {
         anchorid = "";
@@ -31,7 +35,8 @@ module.exports = {
         }
         if (sluganchorid in anchors) {
           collision[sluganchorid] = collision[sluganchorid] + 1;
-          sluganchorid = sluganchorid + '-' + collision[sluganchorid].toString();
+          sluganchorid =
+            sluganchorid + "-" + collision[sluganchorid].toString();
         }
       }
       key = anchorid ? anchorid : sluganchorid;
@@ -39,7 +44,11 @@ module.exports = {
       if (!(key in anchors)) {
         anchors[key] = [];
       }
-      anchors[key].push({ anchorid: anchorid, slug: sluganchorid, linenumber: linenumber });
+      anchors[key].push({
+        anchorid: anchorid,
+        slug: sluganchorid,
+        linenumber: linenumber,
+      });
     });
 
     // I don't know what this is supposed to do. - GDE 2020-10-29
@@ -51,5 +60,5 @@ module.exports = {
     //     }
     //   }
     // }
-  }
+  },
 };

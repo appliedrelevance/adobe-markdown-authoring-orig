@@ -1,5 +1,5 @@
 const path = require('path');
-const shared = require('./shared.adobe.webpack.config');
+const shared = require('./shared.webpack.config');
 
 module.exports = {
     ...shared,
