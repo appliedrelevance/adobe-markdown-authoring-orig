@@ -10,7 +10,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am004 = {
+module.exports = {
   names: ["AM004", "malformed-table"],
   description: "Malformed markdown table",
   tags: ["tables", "asideblock"],

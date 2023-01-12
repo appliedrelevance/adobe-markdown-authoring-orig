@@ -9,7 +9,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am008 = {
+module.exports = {
   names: ["AM008", "header-contains-link"],
   description: "Heading contains link",
   tags: ["headings", "headers"],

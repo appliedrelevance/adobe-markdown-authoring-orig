@@ -3,7 +3,7 @@
 import { addError, ErrorContext, FilterParams, filterTokens } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am023 = {
+module.exports = {
   names: ["AM023", "missing-table-pipes"],
   description: "Table must use outer pipes",
   tags: ["tables"],

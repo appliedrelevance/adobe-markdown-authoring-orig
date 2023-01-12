@@ -8,7 +8,7 @@ import {
   filterTokens,
 } from "../shared";
 
-export const am003 = {
+module.exports = {
   names: ["AM003", "hr not supported"],
   description: "Horizontal rules are not supported",
   tags: ["hr"],

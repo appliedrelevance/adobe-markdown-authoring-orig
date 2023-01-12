@@ -8,7 +8,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am024 = {
+module.exports = {
   names: ["AM024", "List item bullet/numner on line by itself"],
   description: "List items should contian content on bullet line",
   tags: ["bullet", "ul", "ol"],

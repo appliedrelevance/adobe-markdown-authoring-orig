@@ -7,7 +7,7 @@ import {
   forEachLine,
 } from "../shared";
 
-export const am005 = {
+module.exports = {
   names: ["AM005", "anchor-id-starts-with-number"],
   description: "Anchor ids {#..} must begin with letter",
   tags: ["anchors", "anchors"],

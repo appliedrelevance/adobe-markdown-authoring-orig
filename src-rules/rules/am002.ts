@@ -8,7 +8,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am002 = {
+module.exports = {
   names: ["AM002", "id-tag-has-spaces"],
   description: "ID Tags ({#id-tag-name} cannot contain spaces",
   tags: ["headings", "headers"],
@@ -16,7 +16,6 @@ export const am002 = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
-    let prevLevel = 0;
     filterTokens(
       params,
       "heading_open",

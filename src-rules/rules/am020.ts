@@ -2,7 +2,7 @@
 
 import { ErrorContext, FilterParams } from "../shared";
 
-export const am020 = {
+module.exports = {
   names: ["AM020", "metadata-values"],
   description: "Invalid Metadata - deprecated",
   tags: ["link"],

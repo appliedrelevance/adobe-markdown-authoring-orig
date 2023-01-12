@@ -19,7 +19,7 @@ In addition to the standard markdown preview features provided by VS Code that a
 
 ## Installation
 
-The easiest way to install the Adobe Visual Studio Code Markdown Extensions is from the Visual Studio Code extension marketplace.  
+The easiest way to install the Adobe Visual Studio Code Markdown Extensions is from the Visual Studio Code extension marketplace.
 
 1. Install Visual Studio Code 1.44.0 or higher
 2. Launch Code
@@ -159,7 +159,7 @@ This is the last line of the shade box.
 
 ## Markdown Lint Validation Settings
 
-This package uses David Anson's Markdown-Lint package to validate the markdown.  In addition to the built-in validation rules, this package adds support for Adobe Flavored Markdown.  
+This package uses David Anson's Markdown-Lint package to validate the markdown.  In addition to the built-in validation rules, this package adds support for Adobe Flavored Markdown.
 
 ### Changing the Markdown-Lint Validation Settings
 
@@ -238,7 +238,7 @@ markdownlint.config: {
 ```
 ### Custom Rules
 
-In addition to the standard support MD### rules, Adobe Markdown Extension supports AM### rules, which are specific to 
+In addition to the standard support MD### rules, Adobe Markdown Extension supports AM### rules, which are specific to
 Adobe Flavored Markdown.
 
 ```

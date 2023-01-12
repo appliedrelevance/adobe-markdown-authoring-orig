@@ -8,7 +8,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am010 = {
+module.exports = {
   names: ["AM010", "id-tag-has-hash"],
   description:
     "ID Tags ({#id-tag-name} cannot contain additional hash marks ({#id-has-#hash}",

@@ -2,7 +2,7 @@
 
 import { ErrorContext, FilterParams, forEachHeading, slugify } from "../shared";
 
-export const am022 = {
+module.exports = {
   names: ["AM022", "header-anchor-collision"],
   description: "Heading anchor has collision",
   tags: ["headings", "headers"],

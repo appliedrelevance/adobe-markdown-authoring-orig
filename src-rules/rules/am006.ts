@@ -7,7 +7,7 @@ import {
   forEachLine,
 } from "../shared";
 
-export const am006 = {
+module.exports = {
   names: ["AM006", "dodgy-characters"],
   description: "Detects invisible dodgy-characters and control characters",
   tags: ["control-characters"],

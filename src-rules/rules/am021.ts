@@ -8,7 +8,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am021 = {
+module.exports = {
   names: ["AM021", "youtube-video"],
   description: "YouTube videos are not supported",
   tags: ["adobe-markdown", "adobe-markdown"],

@@ -3,7 +3,7 @@
 import { addError, ErrorContext, FilterParams, filterTokens } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am026 = {
+module.exports = {
   names: ["AM026", "table-indent"],
   description: "Table must use consistent indent level",
   tags: ["tables"],

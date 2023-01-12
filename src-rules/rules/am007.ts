@@ -8,7 +8,7 @@ import {
   rangeFromRegExp,
 } from "../shared";
 
-export const am007 = {
+module.exports = {
   names: ["AM007", "header-anchor-without-hash"],
   description: "Heading anchor has no hash",
   tags: ["headings", "headers"],

@@ -21,7 +21,7 @@ import { MarkdownItToken } from "markdownlint";
 // should be
 // >[!NOTE]
 
-export const am009 = {
+module.exports = {
   names: ["AM009", "malformed-adobe-markdown-block"],
   description: "Tests whether the Adobe Markdown is malformed",
   tags: [

@@ -8,7 +8,7 @@ import {
   forEachLine,
 } from "../shared";
 
-export const am012 = {
+module.exports = {
   names: ["AM012", "code-block-indent-and-fence"],
   description: "Code blocks wrong indent level",
   tags: ["code", "indent_level"],

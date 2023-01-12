@@ -8,7 +8,7 @@ import {
   isInCodeBlock,
 } from "../shared";
 
-export const am016 = {
+module.exports = {
   names: ["AM016", "mismatched-brackets-backticks"],
   description: "Unmatched brackets, parens, braces or backticks",
   tags: ["code", "indent_level"],

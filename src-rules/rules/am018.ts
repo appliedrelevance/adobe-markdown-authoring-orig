@@ -8,7 +8,7 @@ import {
   forEachLine,
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
-export const am018 = {
+module.exports = {
   names: ["AM018", "blanks-around-blockquotes"],
   description: "Block quotes should be surrounded by blank lines",
   tags: ["blockquote", "blank_lines"],

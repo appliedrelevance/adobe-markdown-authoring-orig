@@ -8,7 +8,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am017 = {
+module.exports = {
   names: ["AM017", "text-following-id-tag-heading"],
   description: "No text or images after header ID Tags ({#id-tag-name}",
   tags: ["headings", "headers"],

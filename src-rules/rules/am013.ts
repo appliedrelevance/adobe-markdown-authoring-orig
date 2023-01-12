@@ -7,7 +7,7 @@ import {
   forEachLine,
 } from "../shared";
 
-export const am013 = {
+module.exports = {
   names: ["AM013", "code-block-fence-too-many-ticks"],
   description: "Code blocks should have only three ticks",
   tags: ["code", "indent_level"],

@@ -9,7 +9,7 @@ import {
 } from "../shared";
 import { MarkdownItToken } from "markdownlint";
 
-export const am028 = {
+module.exports = {
   names: ["AM028", "empty-admonition-block"],
   description: "Admonition has blank line or no content",
   tags: ["blockquote", "whitespace"],

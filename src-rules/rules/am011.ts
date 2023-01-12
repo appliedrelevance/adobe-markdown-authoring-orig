@@ -9,7 +9,7 @@ import {
   isInCodeBlock,
 } from "../shared";
 
-export const am011 = {
+module.exports = {
   names: ["AM011", "link-spaces"],
   description: "Spaces between link components or in url",
   tags: ["warnings", "link"],

@@ -31,7 +31,17 @@ module.exports = {
     }),
   ],
   optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin()],
-  },
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: false,
+          mangle: false,
+          output: {
+            beautify: true,
+            comments: true,
+          },
+        },
+      }),
+    ],
+  }
 };

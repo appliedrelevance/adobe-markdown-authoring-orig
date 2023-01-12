@@ -2,7 +2,7 @@
 
 import { addError, ErrorContext, FilterParams, forEachLine } from "../shared";
 
-export const am019 = {
+module.exports = {
   names: ["AM019", "link-syntax"],
   description: "Malformed link",
   tags: ["link"],

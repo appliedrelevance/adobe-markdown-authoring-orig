@@ -9,7 +9,7 @@ import {
   isInCodeBlock,
 } from "../shared";
 
-export const am015 = {
+module.exports = {
   names: ["AM015", "malformed-html-comment"],
   description: "HTML comment malformed",
   tags: ["html", "comment"],
