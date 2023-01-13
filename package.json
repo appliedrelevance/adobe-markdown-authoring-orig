@@ -50,77 +50,76 @@
           "default": "dark",
           "description": "Default Spectrum theme for dark mode."
         },
-
-          "markdown.replaceSmartQuotes": {
-            "type": "boolean",
-            "default": true,
-            "description": "Replace smart quotes with regular quotes."
-          },
-          "markdown.icons.bold": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show bold icon in title bar"
-          },
-          "markdown.icons.italic": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show italic icon in title bar"
-          },
-          "markdown.icons.strikethrough": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show strikethrough icon in title bar"
-          },
-          "markdown.icons.bullets": {
-            "type": "boolean",
-            "default": true,
-            "description": "Show bullets icon in title bar"
-          },
-          "markdown.icons.link": {
-            "type": "boolean",
-            "default": false,
-            "description": "Show link icon in title bar"
-          },
-          "markdown.icons.image": {
-            "type": "boolean",
-            "default": false,
-            "description": "Show image icon in title bar"
-          },
-          "markdown.bold.marker": {
-            "type": "string",
-            "default": "**",
-            "description": "Bold marker",
-            "enum": [
-              "__",
-              "**"
-            ]
-          },
-          "markdown.bullets.marker": {
-            "type": "string",
-            "default": "*",
-            "description": "Bullets marker",
-            "enum": [
-              "-",
-              "*",
-              "+"
-            ]
-          },
-          "markdown.italics.marker": {
-            "type": "string",
-            "default": "_",
-            "description": "Italics marker",
-            "enum": [
-              "_",
-              "*"
-            ]
-          },
-          "markdown.languages": {
-            "type": "array",
-            "default": [
-              "markdown"
-            ],
-            "description": "Array of languages for which shortcuts will be available"
-          }
+        "markdown.replaceSmartQuotes": {
+          "type": "boolean",
+          "default": true,
+          "description": "Replace smart quotes with regular quotes."
+        },
+        "markdown.icons.bold": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show bold icon in title bar"
+        },
+        "markdown.icons.italic": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show italic icon in title bar"
+        },
+        "markdown.icons.strikethrough": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show strikethrough icon in title bar"
+        },
+        "markdown.icons.bullets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show bullets icon in title bar"
+        },
+        "markdown.icons.link": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show link icon in title bar"
+        },
+        "markdown.icons.image": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show image icon in title bar"
+        },
+        "markdown.bold.marker": {
+          "type": "string",
+          "default": "**",
+          "description": "Bold marker",
+          "enum": [
+            "__",
+            "**"
+          ]
+        },
+        "markdown.bullets.marker": {
+          "type": "string",
+          "default": "*",
+          "description": "Bullets marker",
+          "enum": [
+            "-",
+            "*",
+            "+"
+          ]
+        },
+        "markdown.italics.marker": {
+          "type": "string",
+          "default": "_",
+          "description": "Italics marker",
+          "enum": [
+            "_",
+            "*"
+          ]
+        },
+        "markdown.languages": {
+          "type": "array",
+          "default": [
+            "markdown"
+          ],
+          "description": "Array of languages for which shortcuts will be available"
+        }
       }
     },
     "commands": [
@@ -691,7 +690,7 @@
   ],
   "scripts": {
     "rebuild": "npm run clean && npm run build",
-    "build": "npm run build-preview && npm run build-rules && npm run build-ext",
+    "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run compile",
     "build-preview": "webpack --mode=development --config ./build/preview.webpack.config.js",
     "build-rules": "webpack --mode=development --config ./build/rules.webpack.config.js",
     "build-ext": "webpack --mode development --config ./build/webpack.config.js",

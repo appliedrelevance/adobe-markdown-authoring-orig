@@ -19,6 +19,20 @@
     },
     {
       "type": "npm",
+      "script": "compile",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never",
+        "group": "watchers"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "type": "npm",
       "script": "watch",
       "problemMatcher": "$ts-webpack-watch",
       "isBackground": true,
@@ -44,7 +58,7 @@
     },
     {
       "label": "tasks: watch-tests",
-      "dependsOn": ["npm: watch-tests"],
+      "dependsOn": ["npm: compile", "npm: watch-tests"],
       "problemMatcher": []
     }
   ]
