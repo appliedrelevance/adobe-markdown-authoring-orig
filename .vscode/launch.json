@@ -11,10 +11,9 @@
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
       "outFiles": [
-        "${workspaceFolder}/dist/**/*.js",
-        "${workspaceFolder}/dist-plugin/**/*.js",
-        "${workspaceFolder}/dist-preview/**/*.js",
-        "${workspaceFolder}/dist-rules/**/*.js"
+        "${workspaceFolder}/dist/*.js",
+        "${workspaceFolder}/dist-preview/*.js",
+        "${workspaceFolder}/dist-rules/*.js"
       ],
       "preLaunchTask": "${defaultBuildTask}"
     },
@@ -24,13 +23,9 @@
       "request": "launch",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}",
-        "--extensionTestsPath=${workspaceFolder}/dist/test/suite/index"
+        "--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
       ],
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js",
-        "${workspaceFolder}/dist-plugin/**/*.js",
-        "${workspaceFolder}/dist-preview/**/*.js"
-      ],
+      "outFiles": ["${workspaceFolder}/out/**/*.js"],
       "preLaunchTask": "tasks: watch-tests"
     }
   ]

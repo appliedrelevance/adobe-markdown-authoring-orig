@@ -118,8 +118,8 @@ export function checkMarkdownlintCustomProperty() {
   const customProperty = "markdownlint.customRules";
   const customRuleset =
     "{adobe.adobe-markdown-authoring}/dist-rules/rules.bundle.js";
-  const docsMarkdownRuleset =
-    "{adobe.adobe-markdown-authoring}/dist-rules/rules.bundle.js";
+  // const docsMarkdownRuleset =
+  //   "{adobe.adobe-markdown-authoring}/dist-rules/rules.bundle.js";
   const customPropertyData: any = workspace
     .getConfiguration()
     .inspect(customProperty);
@@ -159,17 +159,17 @@ export function checkMarkdownlintCustomProperty() {
       }
 
       // remove docs-markdown ruleset setting if necessary
-      if (individualValues.indexOf(docsMarkdownRuleset) > -1) {
-        individualValues = existingUserSettings.filter((userSetting) => {
-          return userSetting !== docsMarkdownRuleset;
-        });
-        workspace
-          .getConfiguration()
-          .update(customProperty, individualValues, ConfigurationTarget.Global);
-        output.appendLine(
-          `[${msTimeValue}] - docs-markdown custom markdownlint ruleset removed from user settings.`
-        );
-      }
+      // if (individualValues.indexOf(docsMarkdownRuleset) > -1) {
+      //   individualValues = existingUserSettings.filter((userSetting) => {
+      //     return userSetting !== docsMarkdownRuleset;
+      //   });
+      //   workspace
+      //     .getConfiguration()
+      //     .update(customProperty, individualValues, ConfigurationTarget.Global);
+      //   output.appendLine(
+      //     `[${msTimeValue}] - docs-markdown custom markdownlint ruleset removed from user settings.`
+      //   );
+      // }
     }
     // if no custom rules exist, create array and add docs custom ruleset.
     if (customPropertyData.globalValue === undefined) {

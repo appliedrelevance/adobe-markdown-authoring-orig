@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import MarkdownIt from "markdown-it";
-import adobeMarkdownPlugin from "../src-plugin";
+import adobeMarkdownPlugin from "./plugin";
 import {
   checkMarkdownlintCustomProperty,
   checkMarkdownlintConfigSettings,

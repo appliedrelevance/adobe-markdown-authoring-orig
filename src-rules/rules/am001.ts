@@ -14,7 +14,6 @@ module.exports = {
     params: FilterParams,
     onError: (context: ErrorContext) => void
   ) {
-    let prevLevel = 0;
     filterTokens(params, "heading_open", function forToken(token) {
       var heading_title = token.line.replace(/.*?[#]+ /g, "");
 

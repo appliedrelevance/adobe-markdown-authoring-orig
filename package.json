@@ -49,6 +49,76 @@
           ],
           "default": "dark",
           "description": "Default Spectrum theme for dark mode."
+        },
+        "markdown.replaceSmartQuotes": {
+          "type": "boolean",
+          "default": true,
+          "description": "Replace smart quotes with regular quotes."
+        },
+        "markdown.icons.bold": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show bold icon in title bar"
+        },
+        "markdown.icons.italic": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show italic icon in title bar"
+        },
+        "markdown.icons.strikethrough": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show strikethrough icon in title bar"
+        },
+        "markdown.icons.bullets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show bullets icon in title bar"
+        },
+        "markdown.icons.link": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show link icon in title bar"
+        },
+        "markdown.icons.image": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show image icon in title bar"
+        },
+        "markdown.bold.marker": {
+          "type": "string",
+          "default": "**",
+          "description": "Bold marker",
+          "enum": [
+            "__",
+            "**"
+          ]
+        },
+        "markdown.bullets.marker": {
+          "type": "string",
+          "default": "*",
+          "description": "Bullets marker",
+          "enum": [
+            "-",
+            "*",
+            "+"
+          ]
+        },
+        "markdown.italics.marker": {
+          "type": "string",
+          "default": "_",
+          "description": "Italics marker",
+          "enum": [
+            "_",
+            "*"
+          ]
+        },
+        "markdown.languages": {
+          "type": "array",
+          "default": [
+            "markdown"
+          ],
+          "description": "Array of languages for which shortcuts will be available"
         }
       }
     },
@@ -620,15 +690,16 @@
   ],
   "scripts": {
     "rebuild": "npm run clean && npm run build",
-    "build": "npm run build-preview && npm run build-plugin && npm run build-rules && npm run build-ext",
+    "build": "npm run build-preview && npm run build-rules && npm run build-ext && npm run compile",
     "build-preview": "webpack --mode=development --config ./build/preview.webpack.config.js",
-    "build-plugin": "webpack --mode=development --config ./build/plugin.webpack.config.js",
     "build-rules": "webpack --mode=development --config ./build/rules.webpack.config.js",
     "build-ext": "webpack --mode development --config ./build/webpack.config.js",
-    "clean": "rimraf dist && rimraf dist-rules && rimraf dist-plugin && rimraf dist-preview",
+    "compile": "tsc -p src  --listEmittedFiles --outDir out",
+    "watch-tests": "tsc -p src -w --outDir out",
+    "test": "node ./out/test/runTest.js",
+    "clean": "rimraf dist && rimraf dist-rules && rimraf dist-plugin && rimraf dist-preview && rimraf out",
     "package": "webpack --mode production --devtool hidden-source-map",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js",
     "test-lint": "markdownlint-cli2 README.md --rules ./dist-rules/rules.bundle.js",
     "vscode:prepublish": "npm run package"
   },
@@ -649,8 +720,12 @@
     "glob": "^8.0.3",
     "mini-css-extract-plugin": "^2.7.2",
     "mocha": "^10.1.0",
+    "nyc": "^15.1.0",
     "ts-loader": "^9.4.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2",
     "typescript": "^4.9.4",
+    "vscode-test-content": "^1.2.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.0"
   },

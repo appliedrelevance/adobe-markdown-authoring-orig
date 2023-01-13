@@ -1,10 +1,5 @@
 .vscode/**
 .vscode-test/**
-out/**
-dist/**
-dist-preview/**
-dist-plugin/**
-dist-rule/**
 node_modules/**
 tmp/**
 .gitignore

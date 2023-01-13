@@ -1,8 +1,8 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../dist-preview",
-    "rootDir": ".",
+    "outDir": "../out",
+    "rootDir": "./",
     "lib": ["es2020", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
