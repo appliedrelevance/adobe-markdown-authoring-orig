@@ -50,7 +50,7 @@
           "default": "dark",
           "description": "Default Spectrum theme for dark mode."
         },
-        {
+
           "markdown.replaceSmartQuotes": {
             "type": "boolean",
             "default": true,
