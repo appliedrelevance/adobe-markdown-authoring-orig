@@ -31,10 +31,9 @@ npm install
 
 ## How is the extension organized?
 
-There are four main parts to the extension, each is contained in its folder.
+There are three main parts to the extension, each is contained in its folder.
 
 - ./src - The extension itself
-- ./src-plugin - The Adobe Markdown-it Plugin
 - ./src-preview - The Preview Webview web components and themes.
 - ./src-rules - The Markdownlint rules for Adobe Flavored Markdown.
 
@@ -69,19 +68,18 @@ To add a new Markdown-it transformation, create a new file in the `/src-plugin/t
 
 The transform functions are registered in the order they are called. The order is important because the transforms are applied in the order they are registered. That is why, for example, the includeFileParts transform is called before the 'normalize' transform, so that it can modify the action Markdown file before it is tokenized. Each of the other transform functions modifies the `state.tokens` array directly, in the order in which they are called.
 
-
 ```javascript
-md.core.ruler.before('normalize', 'include', includeFileParts);
-md.core.ruler.after('block', 'tabs', transformTabs);
-md.core.ruler.after('block', 'shadebox', transformShadebox);
-md.core.ruler.after('block', 'collapsible', transformCollapsible);
-md.core.ruler.after('block', 'table-styles', transformTableStyles);
-md.core.ruler.after('block', 'tabs', transformTabs);
-md.core.ruler.after('block', 'dnls', transformDNLs);
-md.core.ruler.after('block', 'uicontrol', transformUICONTROLs);
-md.core.ruler.after('block', 'alert', transformAdmonitions);
-md.core.ruler.after('block', 'header-anchors', transformHeaderAnchors);
-md.core.ruler.after('block', 'link-target', transformLinkTargets);
+md.core.ruler.before("normalize", "include", includeFileParts);
+md.core.ruler.after("block", "tabs", transformTabs);
+md.core.ruler.after("block", "shadebox", transformShadebox);
+md.core.ruler.after("block", "collapsible", transformCollapsible);
+md.core.ruler.after("block", "table-styles", transformTableStyles);
+md.core.ruler.after("block", "tabs", transformTabs);
+md.core.ruler.after("block", "dnls", transformDNLs);
+md.core.ruler.after("block", "uicontrol", transformUICONTROLs);
+md.core.ruler.after("block", "alert", transformAdmonitions);
+md.core.ruler.after("block", "header-anchors", transformHeaderAnchors);
+md.core.ruler.after("block", "link-target", transformLinkTargets);
 ```
 
 #### Snippets
@@ -90,7 +88,7 @@ The extension also supports snippets and includes. The snippets and include tran
 
 https://experienceleague.adobe.com/docs/authoring-guide-exl/using/authoring/includes.html?lang=en
 
-To share text among articles in a repo, you create a _includes folder in the help folder. This _includes folder can have .md files that can be referenced (included) from other files in the repo. In addition, a snippets.md file in this repo can include Head2 anchors that can be referenced from any file in the repo.
+To share text among articles in a repo, you create a \_includes folder in the help folder. This \_includes folder can have .md files that can be referenced (included) from other files in the repo. In addition, a snippets.md file in this repo can include Head2 anchors that can be referenced from any file in the repo.
 
 Reference to H2 in snippets.md file: `{{id-name}}`
 

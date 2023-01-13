@@ -2,15 +2,15 @@
   "name": "adobe-markdown-authoring",
   "displayName": "Adobe Markdown Authoring extension for Visual Studio Code",
   "description": "All-in-one Adobe Flavored Markdown document authoring extension for Visual Studio Code.",
-  "publisher": "adobe",
+  "publisher": "AdobeExl",
   "version": "2.0.0",
   "engines": {
     "vscode": "^1.74.0"
   },
-  "homepage": "https://github.com/AppliedRelevance/adobe-markdown-authoring.git",
+  "homepage": "https://github.com/AdobeDocs/adobe-markdown-authoring.git",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AppliedRelevance/adobe-markdown-authoring.git"
+    "url": "https://github.com/AdobeDocs/adobe-markdown-authoring.git"
   },
   "icon": "./images/img/icon.png",
   "categories": [
