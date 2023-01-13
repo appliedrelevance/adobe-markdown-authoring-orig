@@ -1,7 +1,4 @@
-import { getEol } from "../../../lib/env";
 import { testCommand } from "../shortcuts.test";
-
-const NEWLINE = getEol();
 
 suite("Bullets", () => {
   // beforeEach(() => {
@@ -18,8 +15,8 @@ suite("Bullets", () => {
   test("Ranged selection", () => {
     return testCommand(
       "toggleBullets",
-      "A li«st\nOf Ite≥ms",
-      "* A «list\n* Of≥ Items"
+      "A li«st\nOf It≥ems",
+      "«* A list\n* Of Items≥"
     );
   });
 
@@ -35,7 +32,7 @@ suite("Bullets", () => {
     return testCommand(
       "toggleBullets",
       "* A bullet«ed li≥st",
-      "A bulleted« list≥"
+      "«A bulleted list≥"
     );
   });
 
@@ -43,7 +40,7 @@ suite("Bullets", () => {
     return testCommand(
       "toggleBullets",
       "* A li«st\n* Of Ite≥ms",
-      "A list«\nOf Items≥"
+      "«A list\nOf Items≥"
     );
   });
 });
